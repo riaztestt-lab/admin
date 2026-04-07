@@ -3,106 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Income - Ultra Admin</title>
+    <title>TK Income - Ultra Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e2e8f0; margin: 0; }
-        .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        input, textarea, select { background: #000 !important; border: 1px solid #333 !important; color: #fff !important; padding: 12px; border-radius: 12px; outline: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        /* Login Overlay Style */
-        #login-screen {
-            position: fixed;
-            inset: 0;
-            background: #050505;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        :root {
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.3);
+            --bg: #05070a;
+            --card: rgba(17, 24, 39, 0.7);
         }
-        #admin-content { display: none; }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: #f1f5f9; 
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+        }
+
+        .glass-panel { 
+            background: var(--card); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .neo-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .neo-button:hover {
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .tab-btn.active {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        input, textarea, select { 
+            background: rgba(0, 0, 0, 0.4) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+            color: #fff !important; 
+            transition: border-color 0.3s;
+        }
+        input:focus { border-color: var(--accent) !important; }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-10">
 
-    <div id="login-screen">
-        <div class="glass p-8 rounded-[2.5rem] w-full max-w-sm text-center space-y-6">
-            <h1 class="text-3xl font-black text-emerald-500 tracking-tighter">ULTRA <span class="text-white">LOGIN</span></h1>
-            <p class="text-gray-500 text-xs font-bold uppercase">পাসওয়ার্ড ছাড়া প্রবেশ নিষেধ</p>
-            <input id="admin-pass-input" type="password" placeholder="Enter Password" class="w-full text-center text-xl">
-            <button id="login-btn" class="w-full bg-emerald-600 py-4 rounded-2xl font-black hover:bg-emerald-500 transition-all">UNLOCK PANEL</button>
-            <p id="error-msg" class="text-red-500 text-xs hidden">ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।</p>
+    <div id="login-screen" class="fixed inset-0 bg-[#05070a] z-[9999] flex items-center justify-center p-6">
+        <div class="glass-panel p-10 rounded-[3rem] w-full max-w-md text-center space-y-8 border-emerald-500/20">
+            <div class="w-20 h-20 bg-emerald-500/10 rounded-3xl mx-auto flex items-center justify-center border border-emerald-500/30">
+                <i data-lucide="shield-check" class="w-10 h-10 text-emerald-500"></i>
+            </div>
+            <div>
+                <h1 class="text-4xl font-black text-white tracking-tighter">ULTRA <span class="text-emerald-500">PANEL</span></h1>
+                <p class="text-slate-500 text-xs font-bold mt-2 tracking-widest uppercase">Admin Authentication Required</p>
+            </div>
+            <div class="space-y-4">
+                <div class="relative">
+                    <i data-lucide="lock" class="w-5 h-5 absolute left-4 top-4 text-slate-500"></i>
+                    <input id="admin-pass-input" type="password" placeholder="Enter Secure Password" class="w-full pl-12 py-4 rounded-2xl text-center text-lg font-mono tracking-widest">
+                </div>
+                <button id="login-btn" class="w-full bg-emerald-600 neo-button py-4 rounded-2xl font-black text-white shadow-lg shadow-emerald-900/20">UNLOCK SYSTEM</button>
+                <p id="error-msg" class="text-red-400 text-sm font-semibold hidden animate-bounce">Access Denied: Invalid Credentials</p>
+            </div>
         </div>
     </div>
 
-    <div id="admin-content" class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-            <h1 class="text-3xl font-black text-emerald-500 tracking-tighter">ULTRA <span class="text-white">ADMIN</span></h1>
-            <div class="flex gap-4">
-                <div class="glass px-6 py-3 rounded-2xl text-center">
-                    <p class="text-[10px] text-gray-500 uppercase font-bold">Total Users</p>
-                    <p id="stat-users" class="text-xl font-black text-emerald-400">0</p>
+    <div id="admin-content" class="max-w-7xl mx-auto hidden">
+        
+        <header class="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 bg-slate-900/20 p-6 rounded-[2rem] border border-white/5">
+            <div class="flex items-center gap-4">
+                <div class="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+                    <i data-lucide="layout-dashboard" class="w-8 h-8 text-emerald-500"></i>
                 </div>
-                <button onclick="logout()" class="glass px-4 rounded-2xl text-red-500 hover:bg-red-500/10"><i data-lucide="log-out"></i></button>
+                <div>
+                    <h1 class="text-2xl font-black text-white">System <span class="text-emerald-500">Control</span></h1>
+                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Management v4.0 Pro</p>
+                </div>
             </div>
-        </div>
-
-        <div class="flex gap-2 mb-8 overflow-x-auto pb-2">
-            <button onclick="showTab('settings')" class="tab-btn bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold text-sm">Settings</button>
-            <button onclick="showTab('users')" class="tab-btn glass px-6 py-2 rounded-xl font-bold text-sm text-gray-400">Users</button>
-            <button onclick="showTab('payouts')" class="tab-btn glass px-6 py-2 rounded-xl font-bold text-sm text-gray-400">Withdrawals</button>
-            <button onclick="showTab('broadcast')" class="tab-btn glass px-6 py-2 rounded-xl font-bold text-sm text-gray-400">Broadcast</button>
-        </div>
-
-        <div id="settings" class="tab-content active space-y-6">
-            <div class="glass p-6 rounded-3xl grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <h3 class="font-bold text-emerald-500">Task Links</h3>
-                    <input id="linkWeb1" type="text" placeholder="Task 1 URL" class="w-full">
-                    <input id="linkWeb2" type="text" placeholder="Task 2 URL" class="w-full">
-                    <input id="linkWeb3" type="text" placeholder="Task 3 URL" class="w-full">
+            
+            <div class="flex items-center gap-6">
+                <div class="flex gap-4">
+                    <div class="stat-card px-8 py-3 rounded-2xl text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-black">Active Users</p>
+                        <p id="stat-users" class="text-2xl font-black text-emerald-400">0</p>
+                    </div>
+                    <div class="stat-card px-8 py-3 rounded-2xl text-center border-blue-500/20">
+                        <p class="text-[10px] text-slate-500 uppercase font-black">Server Status</p>
+                        <p class="text-xs font-black text-blue-400 flex items-center gap-1 justify-center mt-1">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span> ONLINE
+                        </p>
+                    </div>
                 </div>
-                <div class="space-y-4">
-                    <h3 class="font-bold text-emerald-500">Social & Admin</h3>
-                    <input id="linkTelegram" type="text" placeholder="Telegram Group Link" class="w-full">
-                    <input id="linkAdmin" type="text" placeholder="Admin Username (no @)" class="w-full">
-                    <button id="save-btn" class="w-full bg-emerald-600 py-4 rounded-2xl font-black mt-4">SAVE ALL SETTINGS</button>
+                <button onclick="logout()" class="p-4 rounded-2xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                    <i data-lucide="power"></i>
+                </button>
+            </div>
+        </header>
+
+        <nav class="flex gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar">
+            <button onclick="showTab('settings', this)" class="tab-btn active px-8 py-3.5 rounded-2xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+                <i data-lucide="settings-2" class="w-4 h-4"></i> System Settings
+            </button>
+            <button onclick="showTab('users', this)" class="tab-btn glass-panel px-8 py-3.5 rounded-2xl font-bold text-sm text-slate-400 flex items-center gap-2 whitespace-nowrap">
+                <i data-lucide="users" class="w-4 h-4"></i> User Management
+            </button>
+            <button onclick="showTab('payouts', this)" class="tab-btn glass-panel px-8 py-3.5 rounded-2xl font-bold text-sm text-slate-400 flex items-center gap-2 whitespace-nowrap">
+                <i data-lucide="wallet" class="w-4 h-4"></i> Pending Payouts
+            </button>
+            <button onclick="showTab('broadcast', this)" class="tab-btn glass-panel px-8 py-3.5 rounded-2xl font-bold text-sm text-slate-400 flex items-center gap-2 whitespace-nowrap">
+                <i data-lucide="megaphone" class="w-4 h-4"></i> Global Notice
+            </button>
+        </nav>
+
+        <div id="settings" class="tab-content active">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 glass-panel p-8 rounded-[2.5rem] space-y-8">
+                    <div class="flex items-center gap-3 border-b border-white/5 pb-4">
+                        <i data-lucide="link" class="text-emerald-500"></i>
+                        <h3 class="font-bold text-lg">Task Link Configuration</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 ml-2">TASK 01 URL</label>
+                            <input id="linkWeb1" type="text" placeholder="https://..." class="w-full">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 ml-2">TASK 02 URL</label>
+                            <input id="linkWeb2" type="text" placeholder="https://..." class="w-full">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 ml-2">TASK 03 URL</label>
+                            <input id="linkWeb3" type="text" placeholder="https://..." class="w-full">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 ml-2">TELEGRAM GROUP</label>
+                            <input id="linkTelegram" type="text" placeholder="https://t.me/..." class="w-full">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel p-8 rounded-[2.5rem] flex flex-col justify-between border-emerald-500/20">
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 border-b border-white/5 pb-4">
+                            <i data-lucide="user-cog" class="text-emerald-500"></i>
+                            <h3 class="font-bold text-lg">Admin Profile</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 ml-2">SUPPORT USERNAME</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 text-emerald-500 font-bold">@</span>
+                                <input id="linkAdmin" type="text" placeholder="username" class="w-full pl-10">
+                            </div>
+                        </div>
+                    </div>
+                    <button id="save-btn" class="w-full bg-emerald-600 neo-button py-5 rounded-2xl font-black text-white mt-8 flex items-center justify-center gap-3 shadow-xl">
+                        <i data-lucide="save"></i> DEPLOY CHANGES
+                    </button>
                 </div>
             </div>
         </div>
 
         <div id="users" class="tab-content">
-            <div class="glass rounded-3xl overflow-hidden">
-                <table class="w-full text-left">
-                    <thead class="bg-white/5 text-[10px] uppercase text-gray-500">
-                        <tr>
-                            <th class="p-5">User Info</th>
-                            <th class="p-5">Balance</th>
-                            <th class="p-5 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="user-list"></tbody>
-                </table>
+            <div class="glass-panel rounded-[2.5rem] overflow-hidden border-white/5">
+                <div class="p-6 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="font-bold flex items-center gap-2"><i data-lucide="list"></i> Registered Members</h3>
+                    <div class="relative">
+                         <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-500"></i>
+                         <input type="text" placeholder="Search users..." class="py-2 pl-10 text-sm w-64 rounded-xl">
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-black/20 text-[11px] uppercase text-slate-500 font-black">
+                            <tr>
+                                <th class="p-6">User Identification</th>
+                                <th class="p-6">Current Wallet</th>
+                                <th class="p-6 text-center">Status</th>
+                                <th class="p-6 text-right">Administrative</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list" class="divide-y divide-white/5"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div id="payouts" class="tab-content">
-            <div id="payout-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div id="payout-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
         </div>
 
         <div id="broadcast" class="tab-content">
-            <div class="glass p-8 rounded-[2.5rem] max-w-lg mx-auto space-y-4">
-                <h2 class="text-xl font-bold text-center">Send Message to All Users</h2>
-                <textarea id="broadcast-msg" rows="4" placeholder="আপনার মেসেজ লিখুন..." class="w-full"></textarea>
-                <button id="send-broadcast" class="w-full bg-blue-600 py-4 rounded-2xl font-bold flex items-center justify-center gap-2">
-                    <i data-lucide="send"></i> SEND MESSAGE
-                </button>
-                <button id="clear-broadcast" class="w-full bg-red-600/20 text-red-500 py-3 rounded-2xl font-bold text-sm">CLEAR MESSAGE</button>
+            <div class="glass-panel p-10 rounded-[3rem] max-w-2xl mx-auto space-y-6 border-blue-500/20">
+                <div class="text-center space-y-2">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-full mx-auto flex items-center justify-center border border-blue-500/20 mb-4">
+                        <i data-lucide="megaphone" class="w-8 h-8 text-blue-500"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-white">Broadcast System</h2>
+                    <p class="text-slate-400 text-sm">Send a priority notification to all active application users.</p>
+                </div>
+                <textarea id="broadcast-msg" rows="5" placeholder="Enter notification message here..." class="w-full p-6 text-lg leading-relaxed"></textarea>
+                <div class="flex gap-4">
+                    <button id="send-broadcast" class="flex-[2] bg-blue-600 neo-button py-5 rounded-2xl font-black text-white flex items-center justify-center gap-2">
+                        <i data-lucide="send-horizontal"></i> DISPATCH MESSAGE
+                    </button>
+                    <button id="clear-broadcast" class="flex-1 bg-slate-800 hover:bg-red-950/30 hover:text-red-500 py-5 rounded-2xl font-bold transition-all border border-white/5">
+                        RESET
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -111,6 +250,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, onSnapshot, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+        // Firebase Config (Keep it secret)
         const firebaseConfig = {
             apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
             authDomain: "bdincomezone-767b4.firebaseapp.com",
@@ -123,8 +263,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- PASSWORD LOGIC ---
-        const ADMIN_PASSWORD = "Riaz@@1207"; // আপনার নতুন পাসওয়ার্ড এখানে দেওয়া হয়েছে
+        // --- AUTH LOGIC ---
+        const ADMIN_PASSWORD = "Riaz@@1207"; 
 
         const loginScreen = document.getElementById('login-screen');
         const adminContent = document.getElementById('admin-content');
@@ -133,36 +273,46 @@
 
         document.getElementById('login-btn').onclick = () => {
             if(passInput.value === ADMIN_PASSWORD) {
-                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('isAdmin', 'true');
                 checkAuth();
             } else {
                 errorMsg.classList.remove('hidden');
-                passInput.value = '';
+                passInput.classList.add('border-red-500');
+                setTimeout(() => {
+                    errorMsg.classList.add('hidden');
+                    passInput.classList.remove('border-red-500');
+                }, 3000);
             }
         };
 
         function checkAuth() {
-            if(sessionStorage.getItem('isLoggedIn') === 'true') {
+            if(sessionStorage.getItem('isAdmin') === 'true') {
                 loginScreen.style.display = 'none';
-                adminContent.style.display = 'block';
+                adminContent.classList.remove('hidden');
                 loadConfig();
             }
         }
 
         window.logout = () => {
-            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('isAdmin');
             location.reload();
         };
 
         // --- Tabs Logic ---
-        window.showTab = (id) => {
+        window.showTab = (id, btn) => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('bg-emerald-600', 'glass'));
-            event.currentTarget.classList.replace('glass', 'bg-emerald-600');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active', 'bg-emerald-600', 'text-white');
+                b.classList.add('glass-panel', 'text-slate-400');
+            });
+            
+            btn.classList.add('active');
+            btn.classList.remove('glass-panel', 'text-slate-400');
         };
 
-        // --- Settings & Config ---
+        // --- Settings Loader ---
         async function loadConfig() {
             const snap = await getDoc(doc(db, "config", "main"));
             if(snap.exists()) {
@@ -177,6 +327,8 @@
         }
 
         document.getElementById('save-btn').onclick = async () => {
+            const btn = document.getElementById('save-btn');
+            btn.innerText = "UPDATING...";
             await updateDoc(doc(db, "config", "main"), {
                 linkWeb1: document.getElementById('linkWeb1').value,
                 linkWeb2: document.getElementById('linkWeb2').value,
@@ -184,23 +336,24 @@
                 linkTelegram: document.getElementById('linkTelegram').value,
                 linkAdmin: document.getElementById('linkAdmin').value
             });
-            alert("Settings Updated!");
+            btn.innerText = "DEPLOY CHANGES";
+            alert("System configuration updated successfully!");
         };
 
         // --- Broadcast ---
         document.getElementById('send-broadcast').onclick = async () => {
             const msg = document.getElementById('broadcast-msg').value;
             await updateDoc(doc(db, "config", "main"), { announcement: msg });
-            alert("Broadcast sent!");
+            alert("Broadcast mission successful!");
         };
 
         document.getElementById('clear-broadcast').onclick = async () => {
             document.getElementById('broadcast-msg').value = '';
             await updateDoc(doc(db, "config", "main"), { announcement: "" });
-            alert("Broadcast cleared!");
+            alert("Broadcast wiped from system.");
         };
 
-        // --- Users List ---
+        // --- Users List Rendering ---
         onSnapshot(collection(db, "users"), (snap) => {
             document.getElementById('stat-users').innerText = snap.size;
             const list = document.getElementById('user-list');
@@ -208,11 +361,26 @@
             snap.forEach(d => {
                 const u = d.data();
                 const row = `
-                    <tr class="border-b border-white/5">
-                        <td class="p-5 text-sm font-bold">${u.name || 'No Name'}<br><span class="text-[10px] text-gray-500">${u.uid}</span></td>
-                        <td class="p-5 text-emerald-400 font-bold">৳ ${u.balance.toFixed(2)}</td>
-                        <td class="p-5 text-right">
-                            <button onclick="changeBalance('${u.uid}', ${u.balance})" class="bg-white/5 p-2 rounded-lg text-xs">Edit Balance</button>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="p-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-500 border border-white/5">${(u.name || 'U')[0]}</div>
+                                <div>
+                                    <p class="font-bold text-white">${u.name || 'Anonymous'}</p>
+                                    <p class="text-[10px] text-slate-500 font-mono tracking-tighter">${u.uid}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-6">
+                            <p class="text-emerald-400 font-black tracking-tight text-lg">৳ ${u.balance.toFixed(2)}</p>
+                        </td>
+                        <td class="p-6 text-center">
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">VERIFIED</span>
+                        </td>
+                        <td class="p-6 text-right">
+                            <button onclick="changeBalance('${u.uid}', ${u.balance})" class="bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-500 px-4 py-2 rounded-xl text-xs font-bold transition-all border border-emerald-500/20">
+                                ADJUST BALANCE
+                            </button>
                         </td>
                     </tr>`;
                 list.innerHTML += row;
@@ -220,36 +388,55 @@
         });
 
         window.changeBalance = async (uid, current) => {
-            const amount = prompt("নতুন ব্যালেন্স দিন:", current);
-            if(amount !== null) {
+            const amount = prompt(`Adjust balance for ${uid}:`, current);
+            if(amount !== null && !isNaN(amount)) {
                 await updateDoc(doc(db, "users", uid), { balance: parseFloat(amount) });
             }
         };
 
-        // --- Withdrawals ---
+        // --- Withdrawal Management ---
         onSnapshot(collection(db, "withdrawals"), (snap) => {
             const list = document.getElementById('payout-list');
-            list.innerHTML = snap.empty ? '<p class="p-10 text-center col-span-full opacity-50">No requests.</p>' : '';
+            list.innerHTML = snap.empty ? '<div class="col-span-full py-20 text-center glass-panel rounded-3xl opacity-40 italic">Waiting for new payout requests...</div>' : '';
+            
             snap.forEach(d => {
                 const w = d.data();
-                list.innerHTML += `
-                    <div class="glass p-5 rounded-3xl">
-                        <p class="text-xs text-gray-500 font-bold uppercase">${w.method}</p>
-                        <h4 class="text-2xl font-black text-white">৳ ${w.amount}</h4>
-                        <p class="bg-black p-2 rounded-lg text-emerald-400 text-center font-mono my-3">${w.number}</p>
-                        <div class="flex gap-2">
-                            <button onclick="payoutAction('${d.id}', 'approve')" class="flex-1 bg-emerald-600 py-2 rounded-xl text-xs font-bold">APPROVE</button>
-                            <button onclick="payoutAction('${d.id}', 'reject', '${w.uid}', ${w.amount})" class="flex-1 bg-red-600/20 text-red-500 py-2 rounded-xl text-xs font-bold">REJECT</button>
+                const card = `
+                    <div class="glass-panel p-6 rounded-[2.5rem] space-y-4 border-l-4 border-l-emerald-500 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i data-lucide="wallet" class="w-16 h-16"></i>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase">${w.method}</span>
+                                <h4 class="text-3xl font-black text-white mt-2">৳ ${w.amount}</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-slate-500 font-bold">REQUESTED BY</p>
+                                <p class="text-xs text-white font-bold">${w.name || 'User'}</p>
+                            </div>
+                        </div>
+                        <div class="bg-black/50 p-4 rounded-2xl border border-white/5 flex items-center justify-between">
+                            <span class="text-xs text-slate-500 font-bold">RECIPIENT NO:</span>
+                            <span class="font-mono text-emerald-400 font-bold">${w.number}</span>
+                        </div>
+                        <div class="flex gap-3 pt-2">
+                            <button onclick="payoutAction('${d.id}', 'approve')" class="flex-[2] bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-xs font-black text-white transition-all shadow-lg shadow-emerald-900/30">APPROVE & CLOSE</button>
+                            <button onclick="payoutAction('${d.id}', 'reject', '${w.uid}', ${w.amount})" class="flex-1 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-500 py-3 rounded-xl text-xs font-black transition-all border border-red-500/20">REJECT</button>
                         </div>
                     </div>`;
+                list.innerHTML += card;
             });
+            lucide.createIcons();
         });
 
         window.payoutAction = async (id, type, uid, amt) => {
             if(type === 'approve') {
-                if(confirm("Mark as Paid?")) await deleteDoc(doc(db, "withdrawals", id));
+                if(confirm("Confirm payment completion?")) {
+                    await deleteDoc(doc(db, "withdrawals", id));
+                }
             } else {
-                if(confirm("Reject & Refund?")) {
+                if(confirm("Reject request and refund ৳" + amt + " to user?")) {
                     const uRef = doc(db, "users", uid);
                     const uSnap = await getDoc(uRef);
                     if(uSnap.exists()){
@@ -265,4 +452,3 @@
     </script>
 </body>
 </html>
-
