@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TK Income - Ultra Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e2e8f0; }
+        .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        input, textarea, select { background: #000 !important; border: 1px solid #333 !important; color: #fff !important; padding: 12px; border-radius: 12px; outline: none; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <h1 class="text-3xl font-black text-emerald-500 tracking-tighter">ULTRA <span class="text-white">ADMIN</span></h1>
+            <div class="flex gap-4">
+                <div class="glass px-6 py-3 rounded-2xl text-center">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold">Total Users</p>
+                    <p id="stat-users" class="text-xl font-black text-emerald-400">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-2 mb-8 overflow-x-auto pb-2">
+            <button onclick="showTab('settings')" class="tab-btn bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold text-sm">Settings</button>
+            <button onclick="showTab('users')" class="tab-btn glass px-6 py-2 rounded-xl font-bold text-sm text-gray-400">Users</button>
+            <button onclick="showTab('payouts')" class="tab-btn glass px-6 py-2 rounded-xl font-bold text-sm text-gray-400">Withdrawals</button>
+            <button onclick="showTab('broadcast')" class="tab-btn glass px-6 py-2 rounded-xl font-bold text-sm text-gray-400">Broadcast</button>
+        </div>
+
+        <div id="settings" class="tab-content active space-y-6">
+            <div class="glass p-6 rounded-3xl grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h3 class="font-bold text-emerald-500">Task Links</h3>
+                    <input id="linkWeb1" type="text" placeholder="Task 1 URL" class="w-full">
+                    <input id="linkWeb2" type="text" placeholder="Task 2 URL" class="w-full">
+                    <input id="linkWeb3" type="text" placeholder="Task 3 URL" class="w-full">
+                </div>
+                <div class="space-y-4">
+                    <h3 class="font-bold text-emerald-500">Social & Admin</h3>
+                    <input id="linkTelegram" type="text" placeholder="Telegram Group Link" class="w-full">
+                    <input id="linkAdmin" type="text" placeholder="Admin Username (no @)" class="w-full">
+                    <button id="save-btn" class="w-full bg-emerald-600 py-4 rounded-2xl font-black mt-4">SAVE ALL SETTINGS</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="users" class="tab-content">
+            <div class="glass rounded-3xl overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-white/5 text-[10px] uppercase text-gray-500">
+                        <tr>
+                            <th class="p-5">User Info</th>
+                            <th class="p-5">Balance</th>
+                            <th class="p-5 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="payouts" class="tab-content">
+            <div id="payout-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div id="broadcast" class="tab-content">
+            <div class="glass p-8 rounded-[2.5rem] max-w-lg mx-auto space-y-4">
+                <h2 class="text-xl font-bold text-center">Send Message to All Users</h2>
+                <p class="text-xs text-gray-500 text-center">        </p>
+                <textarea id="broadcast-msg" rows="4" placeholder="  ..." class="w-full"></textarea>
+                <button id="send-broadcast" class="w-full bg-blue-600 py-4 rounded-2xl font-bold flex items-center justify-center gap-2">
+                    <i data-lucide="send"></i> SEND MESSAGE
+                </button>
+                <button id="clear-broadcast" class="w-full bg-red-600/20 text-red-500 py-3 rounded-2xl font-bold text-sm">CLEAR MESSAGE</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, onSnapshot, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
+            authDomain: "bdincomezone-767b4.firebaseapp.com",
+            projectId: "bdincomezone-767b4",
+            storageBucket: "bdincomezone-767b4.firebasestorage.app",
+            messagingSenderId: "1026541741286",
+            appId: "1:1026541741286:web:735f4f134ab159b5d28727"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- Tabs Logic ---
+        window.showTab = (id) => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('bg-emerald-600', 'glass'));
+            event.target.classList.replace('glass', 'bg-emerald-600');
+        };
+
+        // --- Settings ---
+        async function loadConfig() {
+            const snap = await getDoc(doc(db, "config", "main"));
+            if(snap.exists()) {
+                const d = snap.data();
+                document.getElementById('linkWeb1').value = d.linkWeb1 || '';
+                document.getElementById('linkWeb2').value = d.linkWeb2 || '';
+                document.getElementById('linkWeb3').value = d.linkWeb3 || '';
+                document.getElementById('linkTelegram').value = d.linkTelegram || '';
+                document.getElementById('linkAdmin').value = d.linkAdmin || '';
+                document.getElementById('broadcast-msg').value = d.announcement || '';
+            }
+        }
+        document.getElementById('save-btn').onclick = async () => {
+            await updateDoc(doc(db, "config", "main"), {
+                linkWeb1: document.getElementById('linkWeb1').value,
+                linkWeb2: document.getElementById('linkWeb2').value,
+                linkWeb3: document.getElementById('linkWeb3').value,
+                linkTelegram: document.getElementById('linkTelegram').value,
+                linkAdmin: document.getElementById('linkAdmin').value
+            });
+            alert("Updated!");
+        };
+
+        // --- Broadcast ---
+        document.getElementById('send-broadcast').onclick = async () => {
+            const msg = document.getElementById('broadcast-msg').value;
+            await updateDoc(doc(db, "config", "main"), { announcement: msg });
+            alert("Message sent to everyone!");
+        };
+        document.getElementById('clear-broadcast').onclick = async () => {
+            document.getElementById('broadcast-msg').value = '';
+            await updateDoc(doc(db, "config", "main"), { announcement: "" });
+            alert("Message cleared!");
+        };
+
+        // --- Users List & Balance Edit ---
+        onSnapshot(collection(db, "users"), (snap) => {
+            document.getElementById('stat-users').innerText = snap.size;
+            const list = document.getElementById('user-list');
+            list.innerHTML = '';
+            snap.forEach(d => {
+                const u = d.data();
+                const row = `
+                    <tr class="border-b border-white/5">
+                        <td class="p-5 text-sm font-bold">${u.name}<br><span class="text-[10px] text-gray-500">${u.uid}</span></td>
+                        <td class="p-5 text-emerald-400 font-bold"> ${u.balance.toFixed(2)}</td>
+                        <td class="p-5 text-right">
+                            <button onclick="changeBalance('${u.uid}', ${u.balance})" class="bg-white/5 p-2 rounded-lg">Edit Balance</button>
+                        </td>
+                    </tr>`;
+                list.innerHTML += row;
+            });
+        });
+
+        window.changeBalance = async (uid, current) => {
+            const amount = prompt("   (: " + current + ")", current);
+            if(amount !== null) {
+                await updateDoc(doc(db, "users", uid), { balance: parseFloat(amount) });
+            }
+        };
+
+        // --- Withdraw Approval/Reject ---
+        onSnapshot(collection(db, "withdrawals"), (snap) => {
+            const list = document.getElementById('payout-list');
+            list.innerHTML = snap.empty ? '<p class="p-10 text-center col-span-full opacity-50">No requests.</p>' : '';
+            snap.forEach(d => {
+                const w = d.data();
+                list.innerHTML += `
+                    <div class="glass p-5 rounded-3xl">
+                        <p class="text-xs text-gray-500 font-bold uppercase">${w.method}</p>
+                        <h4 class="text-2xl font-black text-white"> ${w.amount}</h4>
+                        <p class="bg-black p-2 rounded-lg text-emerald-400 text-center font-mono my-3">${w.number}</p>
+                        <div class="flex gap-2">
+                            <button onclick="payoutAction('${d.id}', 'approve')" class="flex-1 bg-emerald-600 py-2 rounded-xl text-xs font-bold">APPROVE (PAID)</button>
+                            <button onclick="payoutAction('${d.id}', 'reject', '${w.uid}', ${w.amount})" class="flex-1 bg-red-600/20 text-red-500 py-2 rounded-xl text-xs font-bold">REJECT</button>
+                        </div>
+                    </div>`;
+            });
+        });
+
+        window.payoutAction = async (id, type, uid, amt) => {
+            if(type === 'approve') {
+                if(confirm("Mark as Paid?")) await deleteDoc(doc(db, "withdrawals", id));
+            } else {
+                if(confirm("Reject & Refund?")) {
+                    const uRef = doc(db, "users", uid);
+                    const uSnap = await getDoc(uRef);
+                    await updateDoc(uRef, { balance: uSnap.data().balance + amt });
+                    await deleteDoc(doc(db, "withdrawals", id));
+                }
+            }
+        };
+
+        loadConfig();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
