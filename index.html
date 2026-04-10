@@ -93,7 +93,10 @@
                     <input id="linkWeb3" type="text" class="p-4 rounded-xl text-xs" placeholder="Task 3 URL">
                     <input id="linkWeb4" type="text" class="p-4 rounded-xl text-xs" placeholder="Task 4 URL">
                     <input id="linkWeb5" type="text" class="p-4 rounded-xl text-xs" placeholder="Task 5 URL">
-                    <input id="officialGroup" type="text" class="p-4 rounded-xl text-xs border-blue-500/20" placeholder="Official Telegram Group">
+                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input id="officialGroup" type="text" class="p-4 rounded-xl text-xs border-blue-500/20" placeholder="Official Telegram Group">
+                        <input id="paymentChannel" type="text" class="p-4 rounded-xl text-xs border-emerald-500/20" placeholder="Payment Proof Channel URL">
+                    </div>
                 </div>
                 <button onclick="saveConfig()" class="w-full py-5 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-black text-[10px] uppercase tracking-widest">Broadcast Global Update</button>
             </div>
@@ -126,7 +129,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, doc, onSnapshot, updateDoc, collection, query, orderBy, limit, deleteDoc, increment } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        // Your Config
         const firebaseConfig = { apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw", projectId: "bdincomezone-767b4" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -144,29 +146,25 @@
         function initAdmin() {
             lucide.createIcons();
 
-            // Config Listener
             onSnapshot(doc(db, "config", "main"), (s) => {
                 if(s.exists()){
                     const d = s.data();
                     for(let i=1; i<=5; i++) if(document.getElementById(`linkWeb${i}`)) document.getElementById(`linkWeb${i}`).value = d[`linkWeb${i}`] || '';
                     document.getElementById('officialGroup').value = d.officialGroup || '';
+                    document.getElementById('paymentChannel').value = d.paymentChannel || '';
                 }
             });
 
-            // Total Users & List Listener (Optimized Rendering)
             onSnapshot(collection(db, "users"), (s) => {
-                document.getElementById('stat-users').innerText = s.size; // Total User Count
-                
+                document.getElementById('stat-users').innerText = s.size;
                 let totalBal = 0;
                 let userHtml = '';
                 let count = 0;
-
                 s.forEach(uDoc => {
                     const u = uDoc.data();
                     const bal = u.balance || 0;
                     totalBal += bal;
-                    
-                    if(count < 100) { // Limit table view for mobile performance
+                    if(count < 100) {
                         userHtml += `
                             <tr class="border-b border-white/5 hover:bg-white/[0.02]">
                                 <td class="p-5">
@@ -184,18 +182,15 @@
                         count++;
                     }
                 });
-                
                 document.getElementById('user-list').innerHTML = userHtml;
                 document.getElementById('stat-total-bal').innerText = '৳ ' + Math.floor(totalBal);
                 lucide.createIcons();
             });
 
-            // Withdrawals Listener
             onSnapshot(query(collection(db, "withdrawals"), orderBy("time", "desc")), (s) => {
                 document.getElementById('stat-pending').innerText = s.size;
                 const list = document.getElementById('payout-list');
                 let payHtml = s.empty ? '<p class="col-span-full text-center p-10 text-slate-600 font-bold uppercase text-[9px]">No Requests Found</p>' : '';
-                
                 s.forEach(pDoc => {
                     const p = pDoc.data();
                     payHtml += `
@@ -219,7 +214,6 @@
             });
         }
 
-        // Global Actions
         window.showTab = (id, btn) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
@@ -229,7 +223,10 @@
         }
 
         window.saveConfig = async () => {
-            const data = { officialGroup: document.getElementById('officialGroup').value };
+            const data = { 
+                officialGroup: document.getElementById('officialGroup').value,
+                paymentChannel: document.getElementById('paymentChannel').value 
+            };
             for(let i=1; i<=5; i++) {
                 const v = document.getElementById(`linkWeb${i}`).value;
                 if(v) data[`linkWeb${i}`] = v;
@@ -256,4 +253,3 @@
     </script>
 </body>
 </html>
-
