@@ -1,324 +1,1360 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK INCOME - Admin Pro v3.5</title>
+    <title> </title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src='//libtl.com/sdk.js' data-zone='12112314' data-sdk='show_12112314'></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
         
-        body { 
-            font-family: 'Space Grotesk', sans-serif; 
-            background: #020617;
-            color: #f8fafc; 
-            min-height: 100vh;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
+        body{font-family:'Plus Jakarta Sans',sans-serif;}
+
+        /* === Uparjon Premium UI v2 === */
+        :root{
+            --primary:#8b5cf6; --accent:#22d3ee; --bg:#070812;
+            --card:rgba(17,18,32,.72); --line:rgba(255,255,255,.08);
+        }
+        *{box-sizing:border-box}
+        body{
+            background:
+              radial-gradient(900px 500px at -10% -5%,rgba(124,58,237,.24),transparent 55%),
+              radial-gradient(700px 450px at 110% 35%,rgba(6,182,212,.15),transparent 55%),
+              linear-gradient(180deg,#070812,#05060c 55%,#080914);
+            color:#fff;
+        }
+        header{
+            padding:18px 20px 12px!important;
+            position:sticky;top:0;z-index:40;
+            background:rgba(7,8,18,.72);backdrop-filter:blur(24px);
+            border-bottom:1px solid rgba(255,255,255,.045);
+        }
+        header .glass-item{
+            border-radius:999px!important;padding:9px 15px!important;
+            background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(34,211,238,.08))!important;
+            border:1px solid rgba(255,255,255,.09)!important;
+        }
+        main{padding-left:18px!important;padding-right:18px!important;max-width:520px!important}
+        .page-content{animation:pageIn .38s ease both}
+        @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+        .glass-item{
+            background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025))!important;
+            backdrop-filter:blur(20px);
+            border:1px solid var(--line)!important;
+            border-radius:22px!important;
+            box-shadow:0 12px 35px rgba(0,0,0,.16);
+        }
+        .glass-item:active{transform:scale(.985)!important}
+
+        .balance-card-static{
+            padding:25px 20px!important;border-radius:30px!important;
+            background:
+              radial-gradient(circle at 80% 10%,rgba(34,211,238,.22),transparent 30%),
+              radial-gradient(circle at 15% 100%,rgba(139,92,246,.28),transparent 38%),
+              linear-gradient(145deg,#17132c,#0c1827)!important;
+            border:1px solid rgba(255,255,255,.11)!important;
+            box-shadow:0 22px 60px rgba(0,0,0,.34)!important;
+        }
+        #home-page .balance-card-static h2{
+            font-size:43px!important;line-height:1.05;
+            text-shadow:0 0 30px rgba(139,92,246,.22);
+        }
+        #home-page>div:nth-child(2) h3,
+        #home-page>div:nth-child(4) h3{
+            color:#94a3b8!important;font-size:9px!important;
         }
 
-        .neo-glass { 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 1.2rem;
+        /* Home task cards */
+        #home-page .glass-item{
+            transition:transform .25s,background .25s,border-color .25s;
+        }
+        #home-page .grid.grid-cols-1 .glass-item{
+            padding:14px!important;
+            border-radius:18px!important;
+        }
+        #home-page .grid.grid-cols-1 .glass-item>div:first-child>i,
+        #home-page .grid.grid-cols-1 .glass-item>div:first-child>div:first-child{
+            width:42px!important;height:42px!important;border-radius:14px!important;
+        }
+        .btn-premium{
+            background:linear-gradient(135deg,#7c3aed,#4f46e5 55%,#0891b2)!important;
+            border:1px solid rgba(255,255,255,.13)!important;
+            border-radius:13px!important;
+            box-shadow:0 8px 22px rgba(79,70,229,.28)!important;
+            letter-spacing:.04em;
+        }
+        #home-page .grid.grid-cols-2 .glass-item{
+            min-height:118px;padding:19px!important;
+            position:relative;overflow:hidden;
+            background:linear-gradient(145deg,rgba(124,58,237,.13),rgba(8,145,178,.05))!important;
+        }
+        #home-page .grid.grid-cols-2 .glass-item:after{
+            content:"";position:absolute;right:-28px;bottom:-35px;width:90px;height:90px;
+            border-radius:50%;background:rgba(139,92,246,.12);filter:blur(5px);
         }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        /* Wallet */
+        #wallet-page .glass-item.p-8{
+            border-radius:28px!important;
+            background:linear-gradient(150deg,rgba(19,25,45,.9),rgba(12,14,25,.9))!important;
+        }
+        #wallet-page h3{font-size:14px!important;text-transform:none!important;letter-spacing:.02em!important}
+        #wallet-page select,#wallet-page input{
+            height:53px!important;border-radius:15px!important;
+            background:rgba(255,255,255,.045)!important;
+            border:1px solid rgba(255,255,255,.08)!important;
+        }
+        #withdraw-lock{
+            border-radius:20px!important;
+            background:linear-gradient(135deg,rgba(239,68,68,.10),rgba(245,158,11,.04))!important;
+        }
+        #withdraw-lock .progress-bar{height:9px!important;border-radius:99px!important}
+        #wallet-page #withdraw-btn{height:54px;border-radius:16px!important;font-size:11px!important}
 
-        .nav-active { 
-            background: #10b981 !important; 
-            color: white !important; 
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        /* Referral */
+        #refer-page .balance-card-static{
+            background:
+              radial-gradient(circle at 20% 10%,rgba(236,72,153,.20),transparent 32%),
+              radial-gradient(circle at 90% 90%,rgba(139,92,246,.28),transparent 38%),
+              linear-gradient(145deg,#20112d,#101329)!important;
         }
-        
-        input {
-            background: rgba(0, 0, 0, 0.4) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
+        #refer-page .balance-card-static h2{
+            font-size:23px!important;letter-spacing:.02em!important;
+        }
+        #refer-page .glass-item.p-6{
+            padding:18px!important;
+            background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(139,92,246,.05))!important;
+        }
+        #ref-link{
+            background:rgba(0,0,0,.28)!important;
+            border-radius:15px!important;
+            padding:15px!important;
+            color:#c4b5fd!important;
+        }
+        #refer-page button{border-radius:15px!important;height:52px}
+
+        /* Profile */
+        #profile-page .glass-item.p-10{
+            border-radius:30px!important;
+            background:linear-gradient(145deg,rgba(30,25,58,.88),rgba(12,17,31,.9))!important;
+        }
+        #profile-page .w-20{
+            width:78px!important;height:78px!important;
+            background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(34,211,238,.13))!important;
+            border:1px solid rgba(255,255,255,.08);
+            box-shadow:0 12px 35px rgba(124,58,237,.18);
+        }
+        #profile-page #u-name{font-size:18px!important;text-transform:none!important}
+        #profile-page>div:last-child .glass-item{
+            padding:16px!important;border-radius:18px!important;
+        }
+        #profile-page .space-y-3>h3{
+            font-size:9px!important;letter-spacing:.25em!important;
         }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        .status-badge {
-            padding: 2px 8px;
-            border-radius: 99px;
-            font-size: 8px;
-            font-weight: 900;
-            text-transform: uppercase;
+        /* Bottom navigation redesigned */
+        .nav-glass{
+            left:12px!important;right:12px!important;bottom:12px!important;
+            border:1px solid rgba(255,255,255,.09)!important;
+            border-radius:24px!important;
+            padding:9px 13px!important;
+            background:rgba(9,10,20,.88)!important;
+            box-shadow:0 18px 50px rgba(0,0,0,.45)!important;
+            backdrop-filter:blur(25px)!important;
         }
+        .nav-btn{
+            width:52px;height:48px;border-radius:17px;
+            display:flex;align-items:center;justify-content:center;
+            transition:.25s;
+        }
+        .nav-btn.active-icon{
+            color:#fff!important;
+            background:linear-gradient(135deg,rgba(124,58,237,.8),rgba(8,145,178,.55));
+            box-shadow:0 7px 20px rgba(124,58,237,.25);
+            filter:none!important;
+        }
+
+        /* Startup loader */
+        #startup-loader{background:
+            radial-gradient(circle at 15% 20%,rgba(139,92,246,.28),transparent 36%),
+            radial-gradient(circle at 85% 80%,rgba(34,211,238,.20),transparent 35%),#05060d!important}
+        .loader-logo{border-radius:27px!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important}
+        /* UPAJON SIGNATURE UI */
+        body{background:radial-gradient(circle at 0% 0%,rgba(124,58,237,.20),transparent 28%),radial-gradient(circle at 100% 35%,rgba(34,211,238,.12),transparent 30%),#070914!important}
+        header{padding:18px 20px 12px!important;position:sticky;top:0;z-index:40;background:rgba(7,9,20,.72);backdrop-filter:blur(22px)}
+        main{padding:18px 18px 120px!important;max-width:520px!important}.page-content{animation:uPage .35s ease}@keyframes uPage{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        .glass-item{background:linear-gradient(145deg,rgba(24,30,55,.86),rgba(10,14,28,.82))!important;border:1px solid rgba(255,255,255,.075)!important;border-radius:23px!important;box-shadow:0 16px 45px rgba(0,0,0,.18)}
+        .balance-card-static{padding:28px 20px!important;border-radius:32px!important;background:radial-gradient(circle at 15% 10%,rgba(167,139,250,.28),transparent 34%),radial-gradient(circle at 90% 100%,rgba(34,211,238,.17),transparent 40%),linear-gradient(145deg,#1b1735,#0d1729)!important;border:1px solid rgba(167,139,250,.18)!important}
+        #home-page .balance-card-static h2{font-size:46px!important;font-style:normal!important;letter-spacing:-.06em!important}
+        #home-page .grid.grid-cols-1 .glass-item{padding:15px!important;border-radius:20px!important;border-left:3px solid rgba(139,92,246,.55)!important}
+        #home-page .grid.grid-cols-1 .btn-premium{border-radius:12px!important;padding:10px 13px!important}
+        .ad-center-card{position:relative;overflow:hidden;padding:22px!important;border-radius:28px!important;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(8,145,178,.10)),rgba(12,17,33,.92)!important;border:1px solid rgba(129,140,248,.20)!important}
+        .ad-center-card:before{content:"";position:absolute;right:-45px;top:-45px;width:130px;height:130px;border-radius:50%;background:rgba(34,211,238,.10);filter:blur(3px)}
+        .ad-progress{height:9px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}.ad-progress #ad-progress-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#8b5cf6,#22d3ee);transition:width .4s ease}
+        #ad-watch-btn{min-height:55px;border-radius:16px!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important;box-shadow:0 12px 30px rgba(124,58,237,.22)!important}
+        #wallet-page .glass-item.p-8{padding:21px!important;border-radius:28px!important;background:linear-gradient(145deg,rgba(16,25,40,.96),rgba(14,14,28,.92))!important}
+        #wallet-page select,#wallet-page input{height:55px!important;border-radius:16px!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.08)!important}
+        #wallet-page #withdraw-btn{height:56px;border-radius:17px!important;background:linear-gradient(135deg,#10b981,#0ea5e9)!important}
+        #withdraw-lock{display:none!important;border-radius:22px!important;background:linear-gradient(135deg,rgba(245,158,11,.13),rgba(239,68,68,.06))!important}#withdraw-lock.show{display:block!important;animation:uPage .3s ease}#withdraw-lock .progress-bar{height:9px!important;border-radius:99px!important}
+        #refer-page .balance-card-static{background:radial-gradient(circle at 85% 15%,rgba(236,72,153,.18),transparent 30%),linear-gradient(145deg,#25152e,#11162c)!important}#refer-page .glass-item.p-6{padding:20px!important;border-radius:25px!important}#ref-link{background:#080b17!important;border:1px dashed rgba(167,139,250,.30)!important;border-radius:16px!important;padding:16px!important;color:#c4b5fd!important}#refer-page button{height:53px;border-radius:16px!important}
+        #profile-page .glass-item.p-10{padding:28px!important;border-radius:30px!important;background:linear-gradient(145deg,#121d35,#151127)!important}#profile-page .w-20{width:82px!important;height:82px!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important;box-shadow:0 16px 40px rgba(124,58,237,.24)}#profile-page .space-y-3 .glass-item{border-radius:18px!important;padding:16px!important}
+        .nav-glass{left:14px!important;right:14px!important;bottom:14px!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:25px!important;padding:8px!important;background:rgba(8,11,23,.92)!important;box-shadow:0 20px 55px rgba(0,0,0,.5)!important}.nav-btn{width:58px;height:50px;border-radius:17px!important;display:flex;align-items:center;justify-content:center}.nav-btn.active-icon{color:#fff!important;filter:none!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important;box-shadow:0 8px 24px rgba(124,58,237,.25)}
+
+        /* Final startup gate: app stays hidden until progress reaches 100% */
+        #startup-loader{
+            position:fixed!important;inset:0!important;z-index:999999!important;
+            opacity:1;visibility:visible;pointer-events:auto;
+            display:flex;align-items:center;justify-content:center;
+            background:
+              radial-gradient(circle at 15% 15%,rgba(124,58,237,.28),transparent 35%),
+              radial-gradient(circle at 85% 85%,rgba(6,182,212,.20),transparent 35%),
+              #05060d!important;
+        }
+        #startup-loader.hide{
+            opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+        }
+        body.loader-active{overflow:hidden!important}
+        .loader-wrap{width:min(88vw,390px);text-align:center}
+        .loader-logo{
+            width:84px;height:84px;margin:0 auto 22px;border-radius:27px;
+            display:flex;align-items:center;justify-content:center;
+            background:linear-gradient(135deg,#7c3aed,#0891b2);
+            box-shadow:0 0 50px rgba(124,58,237,.38);
+        }
+        .loader-title{font-family:'Space Grotesk',sans-serif;font-size:29px;font-weight:900}
+        .loader-sub{color:#94a3b8;font-size:11px;margin:7px 0 25px}
+        .loader-track{height:11px;padding:2px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+        #loader-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#8b5cf6,#06b6d4);transition:width .08s linear}
+        #loader-percent{margin-top:13px;font-size:23px;font-weight:900;font-variant-numeric:tabular-nums}
+        .loader-status{margin-top:6px;color:#64748b;font-size:9px;letter-spacing:.15em;text-transform:uppercase}
+
+
+        /* === UNIQUE AURORA / HOLOGRAPHIC UI === */
+        body{
+            overflow-x:hidden;
+            background:
+              radial-gradient(650px 420px at 0% -5%,rgba(124,58,237,.30),transparent 62%),
+              radial-gradient(520px 380px at 105% 18%,rgba(6,182,212,.22),transparent 60%),
+              radial-gradient(500px 380px at 50% 110%,rgba(236,72,153,.13),transparent 65%),
+              #05060d!important;
+        }
+        body:before{
+            content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.20;
+            background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                             linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+            background-size:34px 34px;
+            mask-image:linear-gradient(to bottom,black,transparent 85%);
+        }
+        header{
+            background:linear-gradient(180deg,rgba(5,7,18,.94),rgba(5,7,18,.62))!important;
+            border-bottom:1px solid rgba(167,139,250,.12)!important;
+        }
+        header .w-10{
+            position:relative;overflow:hidden;
+            box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 28px rgba(124,58,237,.38)!important;
+        }
+        header .w-10:after{
+            content:"";position:absolute;width:42px;height:42px;border-radius:50%;
+            background:rgba(255,255,255,.24);filter:blur(13px);right:-18px;top:-20px;
+        }
+        .glass-item{
+            position:relative;overflow:hidden;
+            background:linear-gradient(145deg,rgba(24,30,55,.78),rgba(8,12,26,.78))!important;
+            border:1px solid rgba(255,255,255,.075)!important;
+            box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035);
+        }
+        .glass-item:before{
+            content:"";position:absolute;left:-35%;top:-70%;width:55%;height:180%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);
+            transform:rotate(18deg);pointer-events:none;
+        }
+        .balance-card-static{
+            position:relative;overflow:hidden;
+            background:
+              radial-gradient(circle at 85% 10%,rgba(34,211,238,.28),transparent 25%),
+              radial-gradient(circle at 5% 95%,rgba(139,92,246,.34),transparent 35%),
+              linear-gradient(135deg,#17122f 0%,#101b35 48%,#091824 100%)!important;
+            box-shadow:0 25px 70px rgba(0,0,0,.38),0 0 55px rgba(124,58,237,.08)!important;
+        }
+        .balance-card-static:after{
+            content:"";position:absolute;width:170px;height:170px;border-radius:50%;
+            right:-75px;top:-80px;border:1px solid rgba(255,255,255,.10);
+            box-shadow:0 0 0 22px rgba(255,255,255,.025),0 0 0 44px rgba(255,255,255,.018);
+        }
+        #home-page .balance-card-static h2{
+            font-family:'Space Grotesk',sans-serif!important;
+            text-shadow:0 0 35px rgba(167,139,250,.25)!important;
+        }
+        .btn-premium{
+            position:relative;overflow:hidden;
+            background:linear-gradient(110deg,#6d28d9,#7c3aed 42%,#0891b2 100%)!important;
+            box-shadow:0 10px 28px rgba(79,70,229,.28),inset 0 1px 0 rgba(255,255,255,.18)!important;
+        }
+        .btn-premium:after{
+            content:"";position:absolute;top:-80%;left:-35%;width:25%;height:260%;
+            background:rgba(255,255,255,.20);transform:rotate(25deg);
+            animation:buttonShine 3.8s ease-in-out infinite;
+        }
+        @keyframes buttonShine{0%,55%{left:-40%}75%,100%{left:125%}}
+        .ad-center-card{
+            border-radius:30px!important;
+            background:
+              radial-gradient(circle at 100% 0%,rgba(34,211,238,.20),transparent 32%),
+              radial-gradient(circle at 0% 100%,rgba(139,92,246,.22),transparent 36%),
+              linear-gradient(145deg,rgba(22,20,52,.96),rgba(8,18,31,.96))!important;
+            box-shadow:0 22px 65px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.05)!important;
+        }
+        .ad-center-card .w-11{
+            border:1px solid rgba(255,255,255,.08);
+            box-shadow:0 0 25px rgba(34,211,238,.10);
+        }
+        .ad-progress{
+            height:10px!important;background:rgba(255,255,255,.055)!important;
+            border:1px solid rgba(255,255,255,.055);
+        }
+        .ad-progress #ad-progress-fill{
+            background:linear-gradient(90deg,#8b5cf6,#22d3ee,#67e8f9)!important;
+            box-shadow:0 0 18px rgba(34,211,238,.38);
+        }
+        #refer-page .balance-card-static{
+            background:
+              radial-gradient(circle at 15% 15%,rgba(236,72,153,.25),transparent 28%),
+              radial-gradient(circle at 90% 85%,rgba(124,58,237,.32),transparent 38%),
+              linear-gradient(145deg,#24132f,#11152e)!important;
+        }
+        #refer-page .balance-card-static .w-16{
+            border:1px solid rgba(255,255,255,.10);
+            box-shadow:0 0 35px rgba(236,72,153,.18);
+        }
+        #ref-link{
+            box-shadow:inset 0 0 25px rgba(124,58,237,.07);
+        }
+        #wallet-page .glass-item.p-8{
+            box-shadow:0 22px 60px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04)!important;
+        }
+        #wallet-page select:focus,#wallet-page input:focus{
+            border-color:rgba(34,211,238,.42)!important;
+            box-shadow:0 0 0 3px rgba(34,211,238,.08),0 0 24px rgba(34,211,238,.08);
+        }
+        #wallet-page #withdraw-btn{
+            background:linear-gradient(110deg,#059669,#0ea5e9,#06b6d4)!important;
+            box-shadow:0 12px 30px rgba(14,165,233,.20),inset 0 1px 0 rgba(255,255,255,.16)!important;
+        }
+        #profile-page .w-20{
+            position:relative;
+            border:1px solid rgba(255,255,255,.12)!important;
+            box-shadow:0 0 0 7px rgba(124,58,237,.05),0 20px 50px rgba(124,58,237,.22)!important;
+        }
+        .nav-glass{
+            background:rgba(5,8,18,.90)!important;
+            border:1px solid rgba(167,139,250,.14)!important;
+            box-shadow:0 22px 65px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04)!important;
+        }
+        .nav-btn.active-icon{
+            background:linear-gradient(135deg,#7c3aed,#0891b2)!important;
+            box-shadow:0 8px 30px rgba(124,58,237,.34),inset 0 1px 0 rgba(255,255,255,.20)!important;
+        }
+        #startup-loader{
+            background:
+              radial-gradient(circle at 20% 20%,rgba(124,58,237,.34),transparent 32%),
+              radial-gradient(circle at 80% 80%,rgba(6,182,212,.25),transparent 32%),
+              radial-gradient(circle at 50% 50%,rgba(236,72,153,.08),transparent 42%),
+              #04050b!important;
+        }
+        .loader-logo{
+            position:relative;overflow:hidden;
+            box-shadow:0 0 65px rgba(124,58,237,.42),0 0 0 1px rgba(255,255,255,.14)!important;
+        }
+        .loader-logo:after{
+            content:"";position:absolute;inset:-35%;
+            background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.28),transparent 62%);
+            transform:rotate(18deg);animation:loaderShine 2s linear infinite;
+        }
+        @keyframes loaderShine{from{transform:translateX(-70%) rotate(18deg)}to{transform:translateX(70%) rotate(18deg)}}
+        .loader-track{
+            border:1px solid rgba(255,255,255,.08)!important;
+            box-shadow:0 0 25px rgba(124,58,237,.10);
+        }
+        #loader-fill{
+            background:linear-gradient(90deg,#7c3aed,#a78bfa,#22d3ee)!important;
+            box-shadow:0 0 22px rgba(34,211,238,.42);
+        }
+        .page-content{animation:uPage .38s cubic-bezier(.2,.8,.2,1)}
+        @media (max-width:380px){
+            main{padding-left:13px!important;padding-right:13px!important}
+            .nav-glass{left:8px!important;right:8px!important}
+        }
+
+
+        /* === PREMIUM REFERRAL / PAYMENT / PROFILE MENUS === */
+        .refer-hero{
+            position:relative;overflow:hidden;text-align:center;padding:31px 20px 22px;
+            border-radius:32px;
+            background:
+              radial-gradient(circle at 50% 0%,rgba(236,72,153,.22),transparent 32%),
+              radial-gradient(circle at 0% 100%,rgba(124,58,237,.26),transparent 38%),
+              linear-gradient(145deg,#21132f,#0d172d);
+            border:1px solid rgba(255,255,255,.09);
+            box-shadow:0 25px 65px rgba(0,0,0,.32);
+        }
+        .refer-icon{
+            width:70px;height:70px;margin:0 auto 15px;border-radius:24px;
+            display:flex;align-items:center;justify-content:center;
+            background:linear-gradient(135deg,#7c3aed,#ec4899);
+            box-shadow:0 0 40px rgba(236,72,153,.22),inset 0 1px 0 rgba(255,255,255,.25);
+        }
+        .refer-icon svg{width:31px;height:31px}
+        .refer-kicker{font-size:8px;letter-spacing:.28em;font-weight:900;color:#f0abfc}
+        .refer-hero h2{font-size:25px;font-weight:900;margin-top:7px}
+        .refer-hero>p:not(.refer-kicker){font-size:10px;line-height:1.8;color:#94a3b8;max-width:320px;margin:8px auto 0}
+        .refer-orbit{position:absolute;border:1px solid rgba(255,255,255,.07);border-radius:50%;pointer-events:none}
+        .orbit-one{width:170px;height:170px;left:-85px;top:-90px}
+        .orbit-two{width:230px;height:230px;right:-115px;bottom:-145px}
+        .refer-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+        .refer-stats>div{
+            padding:13px;border-radius:19px;background:rgba(0,0,0,.20);
+            border:1px solid rgba(255,255,255,.06)
+        }
+        .refer-stats span{display:block;font-size:20px;font-weight:900}
+        .refer-stats small{font-size:7px;color:#64748b;letter-spacing:.14em;font-weight:900}
+        .refer-link-card,.refer-steps-card,.refer-warning,.payment-card,.payment-security{
+            border:1px solid rgba(255,255,255,.075);border-radius:25px;
+            background:linear-gradient(145deg,rgba(23,29,52,.88),rgba(8,12,25,.90));
+            box-shadow:0 17px 48px rgba(0,0,0,.20);
+        }
+        .refer-link-card{padding:19px}
+        .refer-link-head{display:flex;align-items:center;gap:12px}
+        .refer-link-symbol,.section-mini-icon{
+            width:43px;height:43px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+            background:rgba(124,58,237,.13);color:#c4b5fd;border:1px solid rgba(167,139,250,.12)
+        }
+        .refer-link-head p{font-size:11px;font-weight:900}
+        .refer-link-head span{font-size:8px;color:#64748b}
+        .refer-link-box{
+            margin-top:15px;display:flex;align-items:center;gap:8px;padding:12px;
+            border-radius:17px;background:#070a14;border:1px dashed rgba(167,139,250,.25)
+        }
+        .refer-link-box span{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#c4b5fd;font:9px monospace}
+        .refer-link-box button{width:39px;height:39px;flex:none;border-radius:12px;background:rgba(124,58,237,.18);color:#ddd6fe;display:flex;align-items:center;justify-content:center}
+        .refer-link-box button svg{width:16px}
+        .refer-copy-btn{
+            width:100%;height:51px;margin-top:11px;border-radius:15px;color:#fff;font-size:9px;font-weight:900;
+            background:linear-gradient(110deg,#7c3aed,#db2777);box-shadow:0 10px 28px rgba(124,58,237,.20);
+            display:flex;align-items:center;justify-content:center;gap:7px
+        }
+        .refer-copy-btn svg{width:15px}
+        .refer-note{display:flex;align-items:center;justify-content:center;gap:5px;color:#64748b;font-size:7px;margin-top:10px}
+        .refer-note svg{width:12px;color:#34d399}
+        .refer-steps-card{padding:20px}
+        .section-mini-head{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+        .section-mini-head h3{font-size:11px;font-weight:900}
+        .section-mini-head p{font-size:8px;color:#64748b;margin-top:3px}
+        .refer-step{display:flex;align-items:center;gap:11px}
+        .refer-step>b{font-size:8px;color:#a78bfa;width:22px}
+        .refer-step>div{width:38px;height:38px;border-radius:13px;background:rgba(34,211,238,.08);color:#67e8f9;display:flex;align-items:center;justify-content:center}
+        .refer-step svg{width:16px}
+        .refer-step span{display:flex;flex-direction:column}
+        .refer-step strong{font-size:9px}.refer-step small{font-size:8px;color:#64748b;margin-top:3px}
+        .refer-line{height:18px;border-left:1px dashed rgba(167,139,250,.25);margin-left:32px}
+        .refer-warning{display:flex;gap:11px;padding:16px;color:#fbbf24;background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(8,12,25,.90))}
+        .refer-warning>svg{width:19px;flex:none;margin-top:1px}
+        .refer-warning strong{font-size:9px}.refer-warning p{font-size:8px;color:#94a3b8;line-height:1.7;margin-top:4px}
+        /* Payment */
+        .payment-hero{
+            position:relative;overflow:hidden;text-align:center;padding:21px 20px 24px;border-radius:30px;
+            background:radial-gradient(circle at 50% 0%,rgba(34,211,238,.20),transparent 35%),linear-gradient(145deg,#10243a,#0c1024);
+            border:1px solid rgba(34,211,238,.12);box-shadow:0 22px 60px rgba(0,0,0,.28)
+        }
+        .payment-chip{display:inline-flex;align-items:center;gap:5px;font-size:7px;font-weight:900;letter-spacing:.16em;color:#67e8f9;padding:6px 10px;border-radius:99px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.10)}
+        .payment-chip svg{width:11px}
+        .payment-icon{width:54px;height:54px;border-radius:19px;margin:15px auto 9px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0891b2,#2563eb);box-shadow:0 0 35px rgba(6,182,212,.20)}
+        .payment-icon svg{width:24px}
+        .payment-hero>p{font-size:8px;color:#64748b}.payment-hero h2{font-size:36px;font-weight:900;letter-spacing:-.05em;margin:3px 0 8px}
+        .payment-status{display:inline-flex;align-items:center;gap:6px;font-size:7px;color:#34d399}.payment-status span{width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399}
+        .payment-lock{padding:17px;border-radius:22px;border:1px solid rgba(245,158,11,.12);background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(20,15,20,.72));display:none}
+        .payment-lock.show{display:block;animation:uPage .3s ease}
+        .lock-head{display:flex;gap:11px;align-items:center}.lock-icon{width:39px;height:39px;border-radius:13px;background:rgba(245,158,11,.10);color:#fbbf24;display:flex;align-items:center;justify-content:center}.lock-icon svg{width:17px}
+        .lock-head strong{font-size:10px}.lock-head p{font-size:7px;color:#64748b;margin-top:3px}
+        .payment-progress{height:8px;border-radius:99px;background:rgba(255,255,255,.05);margin-top:15px;overflow:hidden}.payment-progress>div{height:100%;width:0;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:99px;box-shadow:0 0 14px rgba(245,158,11,.25)}
+        .lock-foot{display:flex;justify-content:space-between;margin-top:7px;font-size:7px;color:#64748b}.lock-foot b{color:#fbbf24}
+        .payment-card{padding:20px}
+        .payment-card-title{display:flex;gap:11px;align-items:center;margin-bottom:20px}.payment-title-icon{width:42px;height:42px;border-radius:14px;background:rgba(16,185,129,.10);color:#34d399;display:flex;align-items:center;justify-content:center}.payment-title-icon svg{width:18px}
+        .payment-card-title h3{font-size:12px;font-weight:900}.payment-card-title p{font-size:7px;color:#64748b;margin-top:3px}
+        .payment-field{margin-top:15px}.payment-field label{display:flex;align-items:center;gap:5px;font-size:8px;color:#94a3b8;font-weight:900;margin-bottom:7px}.payment-field label svg{width:12px;color:#67e8f9}
+        .payment-field input,.payment-field select{width:100%;height:53px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);outline:none;color:#fff;padding:0 14px;font-size:10px}
+        .payment-field select option{background:#111827;color:#fff}
+        .payment-input-wrap{display:flex;align-items:center;height:53px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:0 13px}.payment-input-wrap>span{color:#34d399;font-size:16px;font-weight:900}.payment-input-wrap input{height:100%;border:0;background:transparent;padding-left:8px}
+        .payment-field small{font-size:7px;color:#475569;margin-top:5px;display:block}
+        .payment-submit{width:100%;height:56px;margin-top:21px;border-radius:17px;background:linear-gradient(110deg,#059669,#0891b2,#2563eb);color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 13px 32px rgba(8,145,178,.20);border:1px solid rgba(255,255,255,.10)}
+        .payment-submit svg{width:16px}
+        .payment-security{display:flex;align-items:center;gap:10px;padding:14px;color:#34d399}.payment-security>svg{width:19px}.payment-security div{flex:1}.payment-security strong{font-size:8px}.payment-security p{font-size:7px;color:#64748b;margin-top:3px}.payment-security>span{font-size:6px;font-weight:900;letter-spacing:.12em;color:#34d399}
+
+
+        /* Profile premium */
+        #profile-page .glass-item.p-10{
+            background:
+              radial-gradient(circle at 50% 0%,rgba(124,58,237,.20),transparent 35%),
+              linear-gradient(145deg,#14152e,#091321)!important;
+            border:1px solid rgba(167,139,250,.12)!important;
+        }
+        #profile-page .w-20{
+            background:linear-gradient(135deg,#7c3aed,#0891b2)!important;
+            border:2px solid rgba(255,255,255,.12)!important;
+            box-shadow:0 0 0 8px rgba(124,58,237,.06),0 20px 55px rgba(124,58,237,.25)!important;
+        }
+        #profile-page #u-name{font-size:20px!important;letter-spacing:.02em}
+        #profile-page #u-id{padding:7px 10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.05);border-radius:10px;display:inline-block}
+        #profile-page>div:last-child .glass-item{background:linear-gradient(145deg,rgba(24,30,55,.78),rgba(8,12,25,.85))!important}
+
+    
+        .earning-rates-strip{
+            display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:-14px;
+        }
+        .earning-rates-strip>div{
+            text-align:center;padding:10px 4px;border-radius:15px;
+            background:linear-gradient(145deg,rgba(124,58,237,.10),rgba(8,145,178,.06));
+            border:1px solid rgba(255,255,255,.055);
+        }
+        .earning-rates-strip b{display:block;font-size:13px;font-weight:900;color:#67e8f9}
+        .earning-rates-strip span{display:block;margin-top:3px;font-size:6px;color:#64748b;font-weight:800;white-space:nowrap}
+        @media(max-width:370px){.earning-rates-strip{gap:4px}.earning-rates-strip span{font-size:5.5px}}
+
+    
+        .refer-live-note{
+            display:flex;align-items:center;gap:10px;padding:12px 14px;margin-top:-10px;
+            border-radius:18px;background:linear-gradient(110deg,rgba(16,185,129,.10),rgba(34,211,238,.06));
+            border:1px solid rgba(52,211,153,.12);box-shadow:0 12px 30px rgba(0,0,0,.12)
+        }
+        .refer-live-note>svg{width:18px;color:#34d399;filter:drop-shadow(0 0 8px rgba(52,211,153,.4))}
+        .refer-live-note div{flex:1;display:flex;flex-direction:column}
+        .refer-live-note b{font-size:8px;color:#d1fae5}.refer-live-note span{font-size:7px;color:#64748b;margin-top:3px}
+        .refer-live-note>strong{font-size:15px;color:#34d399}
+
+    
+        /* Refer menu: link is immediately visible on entry */
+        #refer-page{scroll-margin-top:12px}
+        #refer-page .refer-link-card{
+            margin-top:-2px;
+            position:relative;
+            z-index:3;
+            box-shadow:0 20px 55px rgba(124,58,237,.14),inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        #refer-page .refer-link-box span{
+            color:#ddd6fe;
+            font-size:9px;
+        }
+        #refer-page .refer-copy-btn{
+            box-shadow:0 12px 32px rgba(124,58,237,.28);
+        }
+
     </style>
+
+<style>
+html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif}
+.nav-btn{min-width:58px;font-size:10px;font-weight:800;color:#94a3b8;transition:all .2s}
+.nav-btn.active-icon{color:#a78bfa}
+.nav-btn span{line-height:1.1}
+#refer-page,#wallet-page,#profile-page{padding-bottom:10px}
+#profile-page .profile-hero{background:radial-gradient(circle at 50% 0%,rgba(99,102,241,.18),transparent 48%),linear-gradient(145deg,rgba(22,27,50,.95),rgba(7,10,23,.96))}
+.payment-hero h2{font-size:30px;font-weight:900}
+.payment-field label{display:flex;align-items:center;gap:7px}
+.payment-field input,.payment-field select{width:100%;min-height:46px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);padding:12px;color:#f8fafc;outline:none}
+.payment-field select option{background:#111827;color:#fff}
+.refer-copy-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;padding:14px;border-radius:16px;background:linear-gradient(100deg,#7c3aed,#0891b2);color:#fff;font-weight:900}
+.refer-link-box{display:flex;align-items:center;gap:8px;overflow-wrap:anywhere;margin-top:14px;padding:12px;border-radius:14px;background:rgba(0,0,0,.22)}
+.refer-link-box span{flex:1;min-width:0;overflow-wrap:anywhere}
+.refer-link-box button{padding:9px;border-radius:10px;background:rgba(124,58,237,.25);color:#ddd6fe}
+.refer-step{display:flex;align-items:center;gap:12px;padding:12px 0}
+.refer-step>span{display:flex;flex-direction:column;gap:4px}
+.refer-step small,.refer-warning p{line-height:1.7;color:#94a3b8}
+.refer-warning{display:flex;gap:12px;padding:16px}
+.refer-warning>i{flex-shrink:0;color:#fbbf24}
+@media(max-width:360px){.nav-glass{padding-left:8px!important;padding-right:8px!important}.nav-btn{min-width:52px;font-size:9px}}
+</style>
+
 </head>
-<body class="p-4 lg:p-8 pb-24">
+<body class="pb-36">
 
-    <div id="login-screen" class="fixed inset-0 bg-[#020617] z-[9999] flex items-center justify-center p-6">
-        <div class="neo-glass p-10 w-full max-w-md text-center border-emerald-500/20 shadow-2xl">
-            <div class="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500"></i>
-            </div>
-            <h1 style="font-family: 'Syncopate', sans-serif;" class="text-xl mb-6">TK <span class="text-emerald-500">ADMIN</span></h1>
-            <input id="admin-pass" type="password" placeholder="ENTER ADMIN KEY" class="w-full p-4 rounded-xl mb-4 text-center font-bold tracking-widest outline-none focus:border-emerald-500/50 transition-all">
-            <button onclick="login()" class="w-full py-4 bg-emerald-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-500 transition-all active:scale-95">Verify Protocol</button>
+    <div id="startup-loader" aria-label="   ">
+        <div class="loader-wrap">
+            <div class="loader-logo"><i data-lucide="sparkles"></i></div>
+            <div class="loader-title"> </div>
+            <div class="loader-sub">         </div>
+            <div class="loader-track"><div id="loader-fill"></div></div>
+            <div id="loader-percent">1%</div>
+            <div id="loader-status" class="loader-status">   </div>
         </div>
     </div>
 
-    <div id="admin-content" class="hidden max-w-5xl mx-auto">
-        <header class="flex justify-between items-center mb-8">
+
+    <header class="p-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-gradient-to-br from-violet-600 to-cyan-500 shadow-lg shadow-violet-500/20">
+                <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+            </div>
             <div>
-                <h1 style="font-family: 'Syncopate', sans-serif;" class="text-xl">TK <span class="text-emerald-500">CONTROL</span></h1>
-                <p class="text-[7px] text-emerald-500/50 uppercase tracking-[0.5em]">Global Monitoring Active</p>
-            </div>
-            <button onclick="location.reload()" class="p-3 neo-glass text-red-500 hover:bg-red-500/10"><i data-lucide="power" class="w-5 h-5"></i></button>
-        </header>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="neo-glass p-5 border-l-4 border-emerald-500">
-                <p class="text-[9px] text-slate-500 uppercase font-bold">Total Users</p>
-                <h3 id="stat-users" class="text-2xl font-black text-white">0</h3>
-            </div>
-            <div class="neo-glass p-5 border-l-4 border-blue-500">
-                <p class="text-[9px] text-slate-500 uppercase font-bold">Global Bal.</p>
-                <h3 id="stat-total-bal" class="text-2xl font-black text-white">৳0</h3>
-            </div>
-            <div class="neo-glass p-5 border-l-4 border-orange-500">
-                <p class="text-[9px] text-slate-500 uppercase font-bold">Pending Pay</p>
-                <h3 id="stat-pending" class="text-2xl font-black text-white">0</h3>
-            </div>
-            <div class="neo-glass p-5 border-l-4 border-purple-500">
-                <p class="text-[9px] text-slate-500 uppercase font-bold">Status</p>
-                <h3 class="text-xs font-bold text-emerald-400">STABLE</h3>
+                <h1 style="font-family: 'Space Grotesk';" class="text-base font-black tracking-tight"> </h1>
+                <p class="text-[7px] text-slate-500 uppercase tracking-[0.3em]">     </p>
             </div>
         </div>
-
-        <div class="flex gap-2 mb-8 overflow-x-auto no-scrollbar">
-            <button onclick="showTab('tasks-tab', this)" class="nav-btn nav-active px-8 py-3 neo-glass text-[9px] font-bold uppercase flex-shrink-0">Global Config</button>
-            <button onclick="showTab('users-tab', this)" class="nav-btn px-8 py-3 neo-glass text-[9px] font-bold uppercase flex-shrink-0">User Base</button>
-            <button onclick="showTab('withdrawals-tab', this)" class="nav-btn px-8 py-3 neo-glass text-[9px] font-bold uppercase flex-shrink-0">Withdrawals</button>
+        <div class="glass-item px-4 py-2">
+            <span class="text-xs font-bold text-white tracking-tighter"> <span id="top-bal">0.00</span></span>
         </div>
+    </header>
 
-        <div id="tasks-tab" class="tab-content active">
-            <div class="neo-glass p-8 space-y-6">
-                <h2 class="text-xs font-black uppercase text-emerald-500 tracking-widest border-b border-white/5 pb-4">System Links & Tasks</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <label class="text-[9px] text-slate-500 uppercase font-bold">Web Tasks (1-5)</label>
-                        <input id="linkWeb1" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Task 1 URL">
-                        <input id="linkWeb2" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Task 2 URL">
-                        <input id="linkWeb3" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Task 3 URL">
-                        <input id="linkWeb4" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Task 4 URL">
-                        <input id="linkWeb5" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Task 5 URL">
-                    </div>
-                    <div class="space-y-4">
-                        <label class="text-[9px] text-slate-500 uppercase font-bold">Community & Others</label>
-                        <input id="officialGroup" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Official Telegram Group">
-                        <input id="paymentChannel" type="text" class="w-full p-4 rounded-xl text-xs" placeholder="Payment Proof Channel">
-                        <input id="howToWork" type="text" class="w-full p-4 rounded-xl text-xs border-dashed border-emerald-500/30" placeholder="Tutorial Video Link">
-                        <div class="p-6 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
-                            <p class="text-[8px] text-slate-400 mb-2 uppercase">Developer Note</p>
-                            <p class="text-[10px] italic">সবগুলো লিঙ্ক সঠিক 'https://' সহ ইনপুট দিন। ব্রডকাস্ট করার সাথে সাথে ইউজারের অ্যাপে আপডেট হবে।</p>
+    <main class="px-6 max-w-md mx-auto space-y-8">
+        
+        <div id="home-page" class="page-content space-y-8">
+            <div class="balance-card-static">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-2">   </p>
+                <h2 class="text-5xl font-black text-white tracking-tighter italic"> <span id="home-bal">0.00</span></h2>
+                <div class="mt-4 inline-flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-[9px] font-black text-green-500 uppercase">Live    </span>
+                </div>
+            </div>
+
+            <div class="earning-rates-strip">
+                <div><b> 40</b><span>  Ad</span></div>
+                <div><b> 55</b><span>  Task</span></div>
+                <div><b> 90</b><span>Channel</span></div>
+                <div><b> 100</b><span>Refer Bonus</span></div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">OFFICIAL TASKS</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="glass-item p-4 flex justify-between items-center border-blue-500/10">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-blue-400"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase">Official Group</p>
+                                <p id="status-group" class="text-[8px] text-blue-400 font-bold">Reward:  90.00</p>
+                            </div>
                         </div>
+                        <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/uparjonofficial')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
+                    </div>
+
+                    <div class="glass-item p-4 flex justify-between items-center border-green-500/10">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase">Payment Proof</p>
+                                <p id="status-pay" class="text-[8px] text-green-400 font-bold">Reward:  90.00</p>
+                            </div>
+                        </div>
+                        <button id="btn-pay" onclick="handleJoinTask('pay', 'https://t.me/uparjonpayment')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
+                    </div>
+
+                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase">Sponsor Link</p>
+                                <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward:  55.00</p>
+                            </div>
+                        </div>
+                        <button id="btn-work" onclick="handleVideoTask('https://t.me/makemoneyonlin92')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
+                    </div>
+                    
+                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase">        </p>
+                                <p id="status-work" class="text-[8px] text-red-400 font-bold">Official Group 2 </p>
+                            </div>
+                        </div>
+                        <button id="btn-video" onclick="handleVideoTask('https://t.me/+3gdwR19E6wJkZDY1')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
                     </div>
                 </div>
-                <button onclick="saveConfig()" class="w-full py-5 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all">Broadcast Global Update</button>
             </div>
-        </div>
 
-        <div id="users-tab" class="tab-content">
-            <div class="mb-4">
-                <input id="user-search" onkeyup="searchUser()" type="text" placeholder="Search user by name or ID..." class="w-full p-4 rounded-xl text-xs neo-glass outline-none focus:border-emerald-500/40">
+            <div class="ad-center-card">
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4"><div><p class="text-[9px] text-cyan-300 font-black uppercase tracking-[0.22em]">Daily Ads</p><h3 class="text-lg font-black mt-1">   </h3></div><div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center"><i data-lucide="play" class="w-5 h-5 text-cyan-300"></i></div></div>
+                    <div class="flex items-end justify-between mb-2"><div><p id="ad-number" class="text-2xl font-black">0 / 20</p><p id="ad-status" class="text-[9px] text-slate-400 mt-1">       </p></div><p class="text-sm font-black text-cyan-300">+ </p></div>
+                    <div class="ad-progress mb-4"><div id="ad-progress-fill"></div></div>
+                    <button id="ad-watch-btn" onclick="watchNextAd()" class="w-full py-3 text-[10px] font-black uppercase text-white flex items-center justify-center gap-2"><i data-lucide="play-circle" class="w-4 h-4"></i>    </button>
+                    <p class="text-center text-[8px] text-slate-500 mt-3">             </p>
+                </div>
             </div>
-            <div class="neo-glass overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-white/5 text-[9px] uppercase text-slate-500">
-                            <tr>
-                                <th class="p-5">User Profile</th>
-                                <th class="p-5 text-center">Referral</th>
-                                <th class="p-5 text-right">Balance</th>
-                                <th class="p-5 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="user-list" class="text-xs">
-                            </tbody>
-                    </table>
+
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">DAILY TASKS</h3>
+                <div id="main-tasks" class="space-y-3">
                 </div>
             </div>
         </div>
 
-        <div id="withdrawals-tab" class="tab-content">
-            <div id="payout-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                </div>
+        <div id="wallet-page" class="page-content hidden space-y-6">
+    <section class="payment-hero">
+        <div class="payment-chip"><i data-lucide="shield-check"></i> নিরাপদ পেমেন্ট</div>
+        <div class="payment-icon"><i data-lucide="wallet-cards"></i></div>
+        <p>আপনার বর্তমান ব্যালেন্স</p>
+        <h2>৳ <span id="payment-bal">0.00</span></h2>
+        <div class="payment-status"><span></span> টাকা উত্তোলন</div>
+    </section>
+
+    <section id="withdraw-lock" class="payment-lock" aria-hidden="true">
+        <div class="lock-head">
+            <div class="lock-icon"><i data-lucide="lock-keyhole"></i></div>
+            <div><strong>উত্তোলন আনলক করুন</strong><p>উত্তোলনের জন্য ১৫টি বৈধ রেফার প্রয়োজন</p></div>
         </div>
+        <div class="payment-progress"><div id="prog-fill"></div></div>
+        <div class="lock-foot"><span>রেফার অগ্রগতি</span><b id="prog-text">0 / 15</b></div>
+    </section>
+
+    <section class="payment-card">
+        <div class="payment-card-title">
+            <div class="payment-title-icon"><i data-lucide="banknote"></i></div>
+            <div><h3>উত্তোলনের আবেদন</h3><p>সঠিক তথ্য দিয়ে ফর্ম পূরণ করুন</p></div>
+        </div>
+        <div class="payment-field">
+            <label><i data-lucide="credit-card"></i> পেমেন্ট মাধ্যম</label>
+            <select id="gateway">
+                <option value="Bkash">বিকাশ (bKash)</option>
+                <option value="Nagad">নগদ (Nagad)</option>
+            </select>
+        </div>
+        <div class="payment-field">
+            <label><i data-lucide="coins"></i> উত্তোলনের পরিমাণ</label>
+            <div class="payment-input-wrap"><span>৳</span><input id="amt" type="number" placeholder="সর্বনিম্ন ৩০০ টাকা" min="300"></div>
+            <small>সর্বনিম্ন উত্তোলন: ৳৩০০</small>
+        </div>
+        <div class="payment-field">
+            <label><i data-lucide="smartphone"></i> মোবাইল নম্বর</label>
+            <input id="num" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX">
+        </div>
+        <button id="withdraw-btn" onclick="submitWithdraw()" class="payment-submit">
+            <span>উত্তোলনের আবেদন করুন</span><i data-lucide="arrow-up-right"></i>
+        </button>
+    </section>
+
+    <section class="payment-security">
+        <i data-lucide="shield-check"></i>
+        <div><strong>নিরাপদ উত্তোলন</strong><p>আবেদন জমা দেওয়ার আগে আপনার তথ্য যাচাই করুন।</p></div>
+        <span>SECURE</span>
+    </section>
+    <div id="txn-history" class="space-y-3"></div>
+</div>
+
+<div id="refer-page" class="page-content hidden space-y-6">
+    <section class="refer-hero">
+        <div class="refer-orbit orbit-one"></div><div class="refer-orbit orbit-two"></div>
+        <div class="refer-icon"><i data-lucide="users-round"></i></div>
+        <p class="refer-kicker">শেয়ার করুন • আয় করুন</p>
+        <h2>বন্ধুকে আমন্ত্রণ করুন</h2>
+        <p>আপনার রেফার লিংক শেয়ার করুন। নতুন ব্যবহারকারী লিংক দিয়ে যোগ দিলে বৈধ রেফার হিসেবে গণনা হবে।</p>
+        <div class="refer-stats">
+            <div><span id="stat-ref">0</span><small>মোট বৈধ রেফার</small></div>
+            <div><span id="stat-earn">৳0</span><small>মোট রেফার বোনাস</small></div>
+        </div>
+    </section>
+
+    <div class="refer-live-note">
+        <i data-lucide="gift"></i><div><b>রেফার বোনাস</b><span>বোনাসের শর্ত প্রযোজ্য</span></div><strong>৳১০০</strong>
     </div>
+
+    <section class="refer-link-card">
+        <div class="refer-link-head">
+            <div class="refer-link-symbol"><i data-lucide="link-2"></i></div>
+            <div><p>আপনার রেফার লিংক</p><span>লিংক কপি করে বন্ধুদের পাঠান</span></div>
+        </div>
+        <div class="refer-link-box"><span id="ref-link"></span><button onclick="copyLink()" aria-label="রেফার লিংক কপি"><i data-lucide="copy"></i></button></div>
+        <button onclick="copyLink()" class="refer-copy-btn"><i data-lucide="share-2"></i> রেফার লিংক কপি করুন</button>
+        <p class="refer-note"><i data-lucide="shield-check"></i> শুধু প্রকৃত নতুন ব্যবহারকারী বৈধ রেফার হিসেবে গণনা হবে।</p>
+    </section>
+
+    <section class="refer-steps-card">
+        <div class="section-mini-head">
+            <div class="section-mini-icon"><i data-lucide="route"></i></div>
+            <div><h3>যেভাবে রেফার করবেন</h3><p>মাত্র তিনটি সহজ ধাপ অনুসরণ করুন</p></div>
+        </div>
+        <div class="refer-step"><b>০১</b><div><i data-lucide="copy"></i></div><span><strong>লিংক কপি করুন</strong><small>আপনার ব্যক্তিগত রেফার লিংক কপি করুন।</small></span></div>
+        <div class="refer-line"></div>
+        <div class="refer-step"><b>০২</b><div><i data-lucide="send"></i></div><span><strong>বন্ধুদের পাঠান</strong><small>Telegram বা অন্য মাধ্যমে লিংক শেয়ার করুন।</small></span></div>
+        <div class="refer-line"></div>
+        <div class="refer-step"><b>০৩</b><div><i data-lucide="badge-check"></i></div><span><strong>বৈধ রেফার সম্পন্ন করুন</strong><small>নতুন ব্যবহারকারী আপনার লিংক দিয়ে যোগ দেবেন।</small></span></div>
+    </section>
+
+    <section class="refer-warning">
+        <i data-lucide="shield-alert"></i><div><strong>গুরুত্বপূর্ণ নির্দেশনা</strong><p>ভুয়া বা নিজের একাধিক অ্যাকাউন্ট বৈধ রেফার নয়। উত্তোলনের জন্য ১৫টি বৈধ রেফার প্রয়োজন হতে পারে।</p></div>
+    </section>
+</div>
+
+<div id="profile-page" class="page-content hidden space-y-6">
+    <section class="glass-item p-8 text-center border-indigo-500/20 profile-hero">
+        <div class="w-20 h-20 bg-indigo-500/10 rounded-full mx-auto flex items-center justify-center mb-4">
+            <i data-lucide="user-round" class="w-10 h-10 text-indigo-400"></i>
+        </div>
+        <p class="text-xs text-indigo-300 font-bold mb-2">আপনার অ্যাকাউন্ট</p>
+        <h2 id="u-name" class="text-xl font-black">ব্যবহারকারী</h2>
+        <p id="u-id" class="text-[9px] text-slate-400 font-mono mt-2 tracking-widest"></p>
+    </section>
+
+    <section class="glass-item p-5 space-y-3">
+        <h3 class="text-sm font-black text-white flex items-center gap-2"><i data-lucide="chart-no-axes-combined" class="w-4 h-4 text-cyan-300"></i> আপনার কার্যক্রম</h3>
+        <div class="flex justify-between items-center rounded-2xl bg-white/5 p-4">
+            <span class="text-sm text-slate-300 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-indigo-300"></i> মোট বৈধ রেফার</span>
+            <strong id="profile-ref-count" class="text-lg text-white">0</strong>
+        </div>
+    </section>
+
+    <section class="glass-item p-5 space-y-1">
+        <h3 class="text-sm font-black text-white mb-3">সহায়তা ও তথ্য</h3>
+        <div onclick="tg.openTelegramLink('https://t.me/uparjonofficial')" class="flex justify-between items-center rounded-2xl bg-white/5 p-4 cursor-pointer mb-2">
+            <div class="flex items-center gap-3"><i data-lucide="messages-square" class="w-5 h-5 text-blue-400"></i><span class="text-sm font-bold">অফিশিয়াল গ্রুপ</span></div><i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </div>
+        <div onclick="tg.openTelegramLink('https://t.me/uparjonpayment')" class="flex justify-between items-center rounded-2xl bg-white/5 p-4 cursor-pointer mb-2">
+            <div class="flex items-center gap-3"><i data-lucide="badge-check" class="w-5 h-5 text-emerald-400"></i><span class="text-sm font-bold">পেমেন্ট প্রুফ</span></div><i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </div>
+        <div onclick="tg.openTelegramLink('https://t.me/+3gdwR19E6wJkZDY1')" class="flex justify-between items-center rounded-2xl bg-white/5 p-4 cursor-pointer">
+            <div class="flex items-center gap-3"><i data-lucide="circle-play" class="w-5 h-5 text-rose-400"></i><span class="text-sm font-bold">OFFICIALGROUP 2</span></div><i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </div>
+    </section>
+
+    <!-- Admin Broadcast Center (keeps existing function and IDs) -->
+    <div id="admin-broadcast-sec" class="glass-item p-6 space-y-4 border-purple-500/30 hidden">
+        <div class="flex items-center gap-2"><i data-lucide="send" class="w-4 h-4 text-purple-400"></i><h3 class="text-sm font-black text-purple-300">অ্যাডমিন ব্রডকাস্ট</h3></div>
+        <textarea id="broadcast-msg" placeholder="আপনার বার্তা লিখুন..." class="w-full bg-white/5 p-3 rounded-xl text-xs text-white border border-white/10 outline-none h-20 resize-none"></textarea>
+        <input id="broadcast-img" type="text" placeholder="ছবির সরাসরি URL (ঐচ্ছিক)" class="w-full bg-white/5 p-3 rounded-xl text-xs text-white border border-white/10 outline-none">
+        <button id="broadcast-btn" onclick="sendBroadcast()" class="w-full py-3 btn-premium text-xs uppercase text-white flex items-center justify-center gap-2"><i data-lucide="radio" class="w-4 h-4"></i> বার্তা পাঠান</button>
+        <p id="broadcast-status" class="text-[9px] text-center font-mono text-slate-400 hidden"></p>
+    </div>
+</div>
+
+
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 nav-glass px-5 py-3 flex justify-around items-center z-50">
+        <button onclick="changePage('home-page', this)" class="nav-btn active-icon flex flex-col items-center gap-1"><i data-lucide="house" class="w-5 h-5"></i><span>হোম</span></button>
+        <button onclick="changePage('refer-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="user-plus" class="w-5 h-5"></i><span>রেফার</span></button>
+        <button onclick="changePage('wallet-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="wallet" class="w-5 h-5"></i><span>উত্তোলন</span></button>
+        <button onclick="changePage('profile-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="user-round" class="w-5 h-5"></i><span>প্রোফাইল</span></button>
+    </nav>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, doc, onSnapshot, updateDoc, collection, query, orderBy, deleteDoc, increment, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, onSnapshot, setDoc, updateDoc, increment, collection, addDoc, query, where, orderBy, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        // Your Config (Don't change if already working)
-        const firebaseConfig = { apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw", projectId: "bdincomezone-767b4" };
+        // Updated Firebase Configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyA3laoyXa3X-vhJo042L_usSm3MSi_UpsM",
+  authDomain: "uparjon-73b17.firebaseapp.com",
+  databaseURL: "https://uparjon-73b17-default-rtdb.firebaseio.com",
+  projectId: "uparjon-73b17",
+  storageBucket: "uparjon-73b17.firebasestorage.app",
+  messagingSenderId: "806422981208",
+  appId: "1:806422981208:web:a09d088904d69dba61382d",
+  measurementId: "G-PVE7XRXJSS"
+};
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        window.tg = window.Telegram.WebApp;
 
-        const MASTER_KEY = "Riaz@@1207";
+        // Bot Configuration & Admin Protection
+        const BOT_TOKEN = "8604572597:AAFUfjLDl2XFV1t7rHHDJkiOcfIPZMQYI3s";
+        const ADMIN_UID = "8958092354"; // Only this ID can see and use Broadcast
 
-        window.login = () => {
-            const pass = document.getElementById('admin-pass').value;
-            if(pass === MASTER_KEY) {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('admin-content').classList.remove('hidden');
-                initAdmin();
-            } else { 
-                alert("ACCESS DENIED: INVALID SECURITY PROTOCOL"); 
+        let userData = null;
+        const uid = tg.initDataUnsafe?.user?.id?.toString() || "dev_user";
+
+        async function init() {
+            lucide.createIcons();
+            tg.expand();
+            tg.headerColor = "#030303";
+            document.getElementById('ref-link').innerText = `https://t.me/uparjonnBot?start=${uid}`;
+            
+            const userRef = doc(db, "users", uid);
+            const userSnap = await getDoc(userRef);
+            
+            if (!userSnap.exists()) {
+                const refBy = tg.initDataUnsafe?.start_param || null;
+                await setDoc(userRef, { 
+                    uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", 
+                    balance: 15.0, totalRefer: 0, 
+                    adCount: 0,
+                    tasksDone: [],
+                    joinedBonus: [],
+                    videoBonus: false,
+                    lastDate: new Date().toDateString(),
+                    joinedAt: serverTimestamp() 
+                });
+                // FIRST LOGIN REFERRAL:
+                // A brand-new user immediately counts as 1 valid referral
+                // for the owner of the start parameter and adds  10.
+                if(refBy && refBy !== uid) {
+                    const rRef = doc(db, "users", refBy);
+                    const rSnap = await getDoc(rRef);
+                    if(rSnap.exists()) {
+                        await updateDoc(rRef, {
+                            balance: increment(10),
+                            totalRefer: increment(1)
+                        });
+                    }
+                }
             }
+
+            onSnapshot(userRef, (s) => { 
+                userData = s.data(); 
+                updateUI();
+                renderTasks(); 
+            });
+
+            loadHistory();
         }
 
-        function initAdmin() {
-            lucide.createIcons();
+        function updateUI() {
+            if(!userData) return;
+            const bal = userData.balance.toFixed(2);
+            const refCount = userData.totalRefer || 0;
+            const today = new Date().toDateString();
 
-            // Load Config
-            onSnapshot(doc(db, "config", "main"), (s) => {
-                if(s.exists()){
-                    const d = s.data();
-                    for(let i=1; i<=5; i++) if(document.getElementById(`linkWeb${i}`)) document.getElementById(`linkWeb${i}`).value = d[`linkWeb${i}`] || '';
-                    document.getElementById('officialGroup').value = d.officialGroup || '';
-                    document.getElementById('paymentChannel').value = d.paymentChannel || '';
-                    document.getElementById('howToWork').value = d.howToWork || '';
+            const isNewDay = userData.lastDate !== today;
+            const adCount = isNewDay ? 0 : (userData.adCount || 0);
+            const adNumber=document.getElementById('ad-number'), adFill=document.getElementById('ad-progress-fill'), adStatus=document.getElementById('ad-status'), adBtn=document.getElementById('ad-watch-btn');
+            if(adNumber) adNumber.innerText=`${adCount} / 20`;
+            if(adFill) adFill.style.width=`${Math.min(100,(adCount/20)*100)}%`;
+            if(adCount>=20){ if(adStatus) adStatus.innerText='         '; if(adBtn){adBtn.disabled=true;adBtn.style.opacity='.5';adBtn.innerText='     ';} }
+            else if(adStatus && !window.adCountdownRunning) adStatus.innerText=`${20-adCount}     `;
+            document.getElementById('home-bal').innerText = bal;
+            const payBal = document.getElementById('payment-bal'); if(payBal) payBal.innerText = bal;
+            document.getElementById('top-bal').innerText = bal;
+            document.getElementById('u-name').innerText = userData.name;
+            document.getElementById('u-id').innerText = "NODE-ID: " + uid;
+            document.getElementById('stat-ref').innerText = refCount;
+            document.getElementById('profile-ref-count').innerText = refCount;
+            document.getElementById('stat-earn').innerText = " " + (refCount * 10);
+            
+            // Admin Check for Broadcast Section
+            const broadcastBox = document.getElementById('admin-broadcast-sec');
+            if (uid === ADMIN_UID) {
+                broadcastBox.classList.remove('hidden');
+            } else {
+                broadcastBox.classList.add('hidden');
+            }
+
+            const bonusList = userData.joinedBonus || [];
+            if(bonusList.includes('group')) {
+                document.getElementById('status-group').innerText = "Status: Claimed  ";
+                document.getElementById('btn-group').innerText = "Visit Group";
+            }
+            if(bonusList.includes('pay')) {
+                document.getElementById('status-pay').innerText = "Status: Claimed  ";
+                document.getElementById('btn-pay').innerText = "Visit Proof";
+            }
+            if(userData.videoBonus) {
+                document.getElementById('status-video').innerText = "Status: Claimed  ";
+                document.getElementById('btn-video').innerText = "Watch Again";
+            }
+
+            const wBtn=document.getElementById('withdraw-btn');
+            const lockPanel=document.getElementById('withdraw-lock');
+            if(lockPanel){lockPanel.classList.remove('show');lockPanel.setAttribute('aria-hidden','true');document.getElementById('prog-fill').style.width=`${Math.min(refCount,15)/15*100}%`;document.getElementById('prog-text').innerText=`${Math.min(refCount,15)} / 15`;}
+            wBtn.disabled=false;wBtn.style.opacity='1';
+        }
+
+        window.renderTasks = () => {
+            const mBox = document.getElementById('main-tasks');
+            if(!userData) return;
+
+            const today = new Date().toDateString();
+            const completedTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
+
+            let html = '';
+            for(let i=1; i<=5; i++) {
+                let link = "";
+                if(i === 1 || i === 3) {
+                    link = "https://splendid-garage.com/tKALuQ";
+                } else {
+                    link = "https://omg10.com/4/11172050";
                 }
-            });
 
-            // User Base Monitoring
-            onSnapshot(collection(db, "users"), (s) => {
-                document.getElementById('stat-users').innerText = s.size;
-                let totalBal = 0;
-                let userHtml = '';
-                s.forEach(uDoc => {
-                    const u = uDoc.data();
-                    const bal = u.balance || 0;
-                    totalBal += bal;
-                    userHtml += `
-                        <tr class="user-row border-b border-white/5 hover:bg-white/[0.02]" data-name="${(u.name || '').toLowerCase()}" data-id="${uDoc.id}">
-                            <td class="p-5">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-[10px] font-bold text-emerald-500">
-                                        ${(u.name || 'A')[0]}
-                                    </div>
-                                    <div>
-                                        <div class="font-bold text-white">${u.name || 'Anonymous'}</div>
-                                        <div class="text-[8px] text-slate-600 font-mono">${uDoc.id}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-5 text-center">
-                                <span class="bg-blue-500/10 text-blue-400 px-2 py-1 rounded text-[10px] font-bold">${u.totalRefer || 0}</span>
-                            </td>
-                            <td class="p-5 text-right font-black text-emerald-400 italic">৳${bal.toFixed(2)}</td>
-                            <td class="p-5 text-right">
-                                <button onclick="adjustUser('${uDoc.id}', ${bal})" class="p-2 neo-glass text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all">
-                                    <i data-lucide="pencil" class="w-3 h-3"></i>
-                                </button>
-                            </td>
-                        </tr>`;
-                });
-                document.getElementById('user-list').innerHTML = userHtml;
-                document.getElementById('stat-total-bal').innerText = '৳' + Math.floor(totalBal);
-                lucide.createIcons();
-            });
-
-            // Withdrawals Monitoring
-            onSnapshot(query(collection(db, "withdrawals"), orderBy("time", "desc")), (s) => {
-                document.getElementById('stat-pending').innerText = s.size;
-                const list = document.getElementById('payout-list');
-                let payHtml = '';
+                const isDone = completedTasks.includes(i);
                 
-                if(s.empty) {
-                    payHtml = '<div class="col-span-full text-center py-20 neo-glass text-[9px] text-slate-600 font-black uppercase">Zero Pending Protocols</div>';
-                }
-
-                s.forEach(pDoc => {
-                    const p = pDoc.data();
-                    payHtml += `
-                        <div class="neo-glass p-6 border-l-4 border-orange-500 relative overflow-hidden group">
-                            <div class="absolute top-2 right-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                                <i data-lucide="clock" class="w-4 h-4 text-orange-500"></i>
-                            </div>
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-[10px] font-black text-orange-500 uppercase tracking-tighter">${p.method}</p>
-                                    <p class="text-[8px] text-slate-500 uppercase font-bold">${new Date(p.time?.toDate()).toLocaleString()}</p>
-                                </div>
-                                <h4 class="text-2xl font-black text-white italic">৳${p.amount}</h4>
-                            </div>
-                            <div class="bg-black/40 p-3 rounded-xl mb-4 border border-white/5">
-                                <p class="text-[7px] text-slate-500 uppercase mb-1">Target Account</p>
-                                <p class="text-sm font-mono font-bold text-emerald-400 select-all">${p.number}</p>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="rejectPay('${pDoc.id}', '${p.uid}', ${p.amount})" class="py-3 neo-glass text-[9px] font-black uppercase text-red-500 hover:bg-red-500/10">Reject</button>
-                                <button onclick="approvePay('${pDoc.id}')" class="py-3 bg-emerald-600 rounded-xl text-[9px] font-black uppercase text-white shadow-lg shadow-emerald-500/20 active:scale-95 transition-all">Approve</button>
-                            </div>
-                        </div>`;
-                });
-                list.innerHTML = payHtml;
-                lucide.createIcons();
-            });
-        }
-
-        // Action Functions
-        window.saveConfig = async () => {
-            try {
-                const data = { 
-                    officialGroup: document.getElementById('officialGroup').value,
-                    paymentChannel: document.getElementById('paymentChannel').value,
-                    howToWork: document.getElementById('howToWork').value
-                };
-                for(let i=1; i<=5; i++) {
-                    const v = document.getElementById(`linkWeb${i}`).value;
-                    data[`linkWeb${i}`] = v;
-                }
-                await updateDoc(doc(db, "config", "main"), data);
-                alert("GLOBAL PROTOCOLS UPDATED SUCCESSFULLY!");
-            } catch (e) {
-                alert("ERROR: DATABASE NOT RESPONDING");
+                html += `
+                <div class="glass-item p-4 flex justify-between items-center ${isDone ? 'opacity-50' : ''}">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
+                            <i data-lucide="link" class="w-5 h-5 text-indigo-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-white uppercase">Task - ${i}</p>
+                            <p class="text-[9px] text-indigo-400 font-bold">+৳55.00</p>
+                        </div>
+                    </div>
+                    <button id="task-btn-${i}" 
+                        onclick="${isDone ? '' : `handleTask(${i}, '${link}')`}" 
+                        class="px-5 py-2.5 ${isDone ? 'bg-gray-600' : 'btn-premium'} rounded-xl text-[9px] font-black uppercase text-white italic"
+                        ${isDone ? 'disabled' : ''}>
+                        ${isDone ? ' ' : '   '}
+                    </button>
+                </div>`;
             }
-        }
-
-        window.searchUser = () => {
-            const query = document.getElementById('user-search').value.toLowerCase();
-            document.querySelectorAll('.user-row').forEach(row => {
-                const name = row.getAttribute('data-name');
-                const id = row.getAttribute('data-id').toLowerCase();
-                row.style.display = (name.includes(query) || id.includes(query)) ? '' : 'none';
-            });
-        }
-
-        window.adjustUser = async (uid, cur) => {
-            const n = prompt("ENTER NEW BALANCE FOR AGENT:", cur);
-            if(n !== null && !isNaN(n)) {
-                await updateDoc(doc(db, "users", uid), { balance: parseFloat(n) });
-            }
-        }
-
-        window.approvePay = async (id) => {
-            if(confirm("MARK WITHDRAWAL AS SUCCESSFUL?")) {
-                await deleteDoc(doc(db, "withdrawals", id));
-            }
-        }
-
-        window.rejectPay = async (id, uid, amt) => {
-            if(confirm("REJECT AND REFUND TO USER BALANCE?")) {
-                await updateDoc(doc(db, "users", uid), { balance: increment(amt) });
-                await deleteDoc(doc(db, "withdrawals", id));
-            }
-        }
-
-        window.showTab = (id, btn) => {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('nav-active');
+            mBox.innerHTML = html;
             lucide.createIcons();
+        };
+
+        window.handleTask = (id, link) => {
+            const btn = document.getElementById(`task-btn-${id}`);
+            tg.openLink(link);
+            let sec = 25; 
+            btn.disabled = true;
+            btn.classList.remove('btn-premium');
+            btn.classList.add('bg-slate-700');
+
+            const timer = setInterval(() => {
+                btn.innerText = sec + "S"; 
+                sec--;
+                if (sec < 0) {
+                    clearInterval(timer); 
+                    btn.innerText = "CLAIM"; 
+                    btn.disabled = false;
+                    btn.classList.add('btn-premium');
+                    btn.onclick = async () => {
+                        btn.disabled = true;
+                        const today = new Date().toDateString();
+                        let newTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
+                        if(!newTasks.includes(id)) {
+                            newTasks.push(id);
+                            try {
+                                const userRef = doc(db, "users", uid);
+                                await updateDoc(userRef, { 
+                                    balance: increment(55), 
+                                    tasksDone: newTasks,
+                                    lastDate: today
+                                });
+                                const freshSnap = await getDoc(userRef);
+                                if(freshSnap.exists()) userData = { ...freshSnap.data(), uid };
+                                updateUI();
+                                tg.showAlert("         !");
+                            } catch (saveErr) {
+                                console.error('Task reward save error:', saveErr);
+                                btn.disabled = false;
+                                tg.showAlert("Task complete  ,   balance save        ");
+                            }
+                        }
+                    }
+                }
+            }, 1000);
+        };
+
+        window.handleJoinTask = async (type, link) => {
+            tg.openTelegramLink(link);
+            const bonusList = userData.joinedBonus || [];
+            if(!bonusList.includes(type)) {
+                setTimeout(async () => {
+                    bonusList.push(type);
+                    await updateDoc(doc(db, "users", uid), {
+                        balance: increment(90),
+                        joinedBonus: bonusList
+                    });
+                    tg.showAlert(" !   official task bonus    ");
+                }, 4000); 
+            }
+        };
+
+        window.handleVideoTask = async (link) => {
+            if(link.includes('t.me')) {
+                tg.openTelegramLink(link);
+            } else {
+                tg.openLink(link);
+            }
+            
+            if(!userData.videoBonus) {
+                setTimeout(async () => {
+                    await updateDoc(doc(db, "users", uid), {
+                        balance: increment(55),
+                        videoBonus: true
+                    });
+                    tg.showAlert("Website task bonus      !");
+                }, 6000);
+            }
+        };
+
+        let adCountdownRunning=false; window.adCountdownRunning=false;
+        const waitForMonetag=()=>new Promise((resolve,reject)=>{
+            if(typeof window.show_12112314==='function') return resolve(window.show_12112314);
+            let tries=0;
+            const timer=setInterval(()=>{
+                tries++;
+                if(typeof window.show_12112314==='function'){
+                    clearInterval(timer); resolve(window.show_12112314);
+                }else if(tries>=30){
+                    clearInterval(timer); reject(new Error('Monetag SDK did not load'));
+                }
+            },500);
+        });
+
+        window.watchNextAd=async()=>{
+            if(adCountdownRunning||!userData)return;
+            const today=new Date().toDateString(), isNewDay=userData.lastDate!==today, currentCount=isNewDay?0:(userData.adCount||0);
+            if(currentCount>=20)return tg.showAlert('                 ');
+
+            const btn=document.getElementById('ad-watch-btn'),status=document.getElementById('ad-status');
+            adCountdownRunning=true; window.adCountdownRunning=true;
+            btn.disabled=true; btn.style.opacity='.55'; btn.innerText='AD LOAD...';
+            status.innerText='     ...';
+
+            try{
+                const monetagAd=await waitForMonetag();
+                status.innerText='     ...';
+                await Promise.resolve(monetagAd());
+
+                let sec=15;
+                status.innerText=`      ${sec}    `;
+                btn.innerText=`${sec}S`;
+
+                const timer=setInterval(async()=>{
+                    sec--;
+                    if(sec>0){
+                        status.innerText=`      ${sec}    `;
+                        btn.innerText=`${sec}S`;
+                        return;
+                    }
+                    clearInterval(timer);
+
+                    try {
+                        const next=currentCount+1;
+                        const obj={balance:increment(40),adCount:next,lastDate:today};
+                        if(isNewDay)obj.tasksDone=[];
+
+                        const userRef = doc(db,'users',uid);
+                        await updateDoc(userRef,obj);
+                        const freshSnap = await getDoc(userRef);
+                        if(freshSnap.exists()) userData = { ...freshSnap.data(), uid };
+
+                        tg.HapticFeedback.notificationOccurred('success');
+                        tg.showAlert('         !');
+                        updateUI();
+
+                        adCountdownRunning=false; window.adCountdownRunning=false;
+
+                        if(next>=20){
+                            status.innerText='         ';
+                            btn.innerText='     ';
+                            btn.style.opacity='.5';
+                        }else{
+                            status.innerText=`${20-next}           `;
+                            btn.disabled=false; btn.style.opacity='1';
+                            btn.innerText='     ';
+                        }
+                    } catch (saveErr) {
+                        console.error('Reward save error:', saveErr);
+                        adCountdownRunning=false; window.adCountdownRunning=false;
+                        btn.disabled=false; btn.style.opacity='1'; btn.innerText='     ';
+                        status.innerText='Reward save  ';
+                        tg.showAlert('Ad    ,   balance save        ');
+                    }
+                },1000);
+            }catch(err){
+                console.error('Monetag error:',err);
+                adCountdownRunning=false; window.adCountdownRunning=false;
+                btn.disabled=false; btn.style.opacity='1'; btn.innerText='     ';
+                status.innerText='     ';
+                tg.showAlert('Monetag ad load            ');
+            }
+        };
+
+        window.submitWithdraw = async () => {
+            const refCount=userData?.totalRefer||0, lockPanel=document.getElementById('withdraw-lock');
+            if(refCount<15){if(lockPanel){lockPanel.classList.add('show');lockPanel.setAttribute('aria-hidden','false');}document.getElementById('prog-fill').style.width=`${Math.min(refCount,15)/15*100}%`;document.getElementById('prog-text').innerText=`${Math.min(refCount,15)} / 15`;tg.showAlert(`Withdraw     valid referral       ${refCount} `);return;}
+            const amt = parseFloat(document.getElementById('amt').value);
+            const num = document.getElementById('num').value;
+            if(!amt || !num) return tg.showAlert("     ");
+            if(amt < 300) return tg.showAlert("     ");
+            if(amt > userData.balance) return tg.showAlert("   ");
+            
+            await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
+            await addDoc(collection(db, "withdrawals"), { 
+                uid, amount: amt, number: num, 
+                method: document.getElementById('gateway').value, 
+                status: "Pending", 
+                time: serverTimestamp() 
+            });
+            tg.showAlert("     !");
+            document.getElementById('amt').value = '';
+            document.getElementById('num').value = '';
+        };
+
+        // Admin Only Broadcast Functionality
+        window.sendBroadcast = async () => {
+            if (uid !== ADMIN_UID) {
+                tg.showAlert("         !");
+                return;
+            }
+
+            const msg = document.getElementById('broadcast-msg').value.trim();
+            const imgUrl = document.getElementById('broadcast-img').value.trim();
+            const statusEl = document.getElementById('broadcast-status');
+            const btn = document.getElementById('broadcast-btn');
+
+            if (!msg) {
+                tg.showAlert("         ");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            statusEl.classList.remove('hidden');
+            statusEl.innerText = "         ...";
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "users"));
+                let total = querySnapshot.size;
+                let successCount = 0;
+
+                statusEl.innerText = `     ... 0/${total}`;
+
+                for (const userDoc of querySnapshot.docs) {
+                    const recipientId = userDoc.id;
+                    if (!recipientId || recipientId === "dev_user") continue;
+
+                    let url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                    let bodyData = {
+                        chat_id: recipientId,
+                        text: msg,
+                        parse_mode: "HTML"
+                    };
+
+                    if (imgUrl) {
+                        url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
+                        bodyData = {
+                            chat_id: recipientId,
+                            photo: imgUrl,
+                            caption: msg,
+                            parse_mode: "HTML"
+                        };
+                    }
+
+                    try {
+                        const res = await fetch(url, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(bodyData)
+                        });
+                        if (res.ok) successCount++;
+                    } catch (e) {
+                        console.error(`Failed sending to ${recipientId}`);
+                    }
+                }
+
+                statusEl.innerText = `   ! ${successCount}/${total}          `;
+                tg.showAlert(`     ! ${successCount}      `);
+                document.getElementById('broadcast-msg').value = '';
+                document.getElementById('broadcast-img').value = '';
+
+            } catch (err) {
+                console.error(err);
+                statusEl.innerText = "         ";
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }
+        };
+
+        window.changePage = (id, btn) => {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            document.querySelectorAll('.nav-btn').forEach(n => {
+                n.classList.remove('active-icon');
+                n.classList.add('text-slate-600');
+            });
+            btn.classList.add('active-icon');
+            btn.classList.remove('text-slate-600');
+            lucide.createIcons();
+            tg.HapticFeedback.impactOccurred('medium');
+            if(id === 'home-page') renderTasks();
+            if(id === 'refer-page'){
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                setTimeout(() => {
+                    const refCard = document.querySelector('.refer-link-card');
+                    if(refCard) refCard.scrollIntoView({behavior:'smooth', block:'start'});
+                }, 80);
+            }
         }
+
+        window.copyLink = () => {
+            const link = document.getElementById('ref-link').innerText;
+            navigator.clipboard.writeText(link);
+            tg.showAlert("       !");
+        }
+
+        function loadHistory() {
+            const q = query(collection(db, "withdrawals"), where("uid", "==", uid), orderBy("time", "desc"));
+            onSnapshot(q, (sn) => {
+                const box = document.getElementById('txn-history');
+                box.innerHTML = sn.empty ? '<p class="text-center text-[8px] text-slate-600">No history yet.</p>' : '';
+                sn.forEach(d => {
+                    const w = d.data();
+                    box.innerHTML += `
+                    <div class="glass-item p-4 flex justify-between items-center opacity-70 mb-2">
+                        <div class="text-[9px]"><p class="font-black text-white uppercase">${w.method}</p><p class="${w.status === 'Pending' ? 'text-amber-500' : 'text-green-500'} font-bold">${w.status}</p></div>
+                        <p class="text-xs font-black italic"> ${w.amount}</p>
+                    </div>`;
+                });
+            });
+        }
+
+        // Premium 1%-100% startup loading animation
+        function runStartupLoader(){
+            const loader = document.getElementById('startup-loader');
+            const fill = document.getElementById('loader-fill');
+            const percent = document.getElementById('loader-percent');
+            const status = document.getElementById('loader-status');
+
+            // Show the 1-100% loader only on the first app opening.
+            // Returning from a task/ad must not look like a fresh login.
+            let alreadyLoaded = false;
+            try { alreadyLoaded = localStorage.getItem('uparjon_loader_seen') === '1'; } catch(e) {}
+
+            if(alreadyLoaded){
+                if(loader) loader.classList.add('hide');
+                document.body.classList.remove('loader-active');
+                return;
+            }
+
+            document.body.classList.add('loader-active');
+            if(!loader || !fill || !percent){
+                document.body.classList.remove('loader-active');
+                return;
+            }
+
+            let progress = 0;
+            const statusAt = (p) => {
+                if(p < 20) return "   ";
+                if(p < 45) return "     ";
+                if(p < 70) return "     ";
+                if(p < 90) return "     ";
+                if(p < 100) return "   ";
+                return "   ";
+            };
+
+            const timer = setInterval(() => {
+                progress++;
+                fill.style.width = progress + "%";
+                percent.textContent = progress + "%";
+                if(status) status.textContent = statusAt(progress);
+
+                if(progress >= 100){
+                    clearInterval(timer);
+                    try { localStorage.setItem('uparjon_loader_seen','1'); } catch(e) {}
+                    setTimeout(() => {
+                        loader.classList.add('hide');
+                        document.body.classList.remove('loader-active');
+                    }, 450);
+                }
+            }, 22);
+        }
+        runStartupLoader();
+        init();
     </script>
 </body>
-    </html>
+</html>
