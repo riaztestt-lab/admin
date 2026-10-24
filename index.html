@@ -2,6 +2,9 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> </title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -555,7 +558,7 @@
     </style>
 
 <style>
-html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif}
+html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Bengali",sans-serif!important;font-synthesis:none;text-rendering:optimizeLegibility}
 .nav-btn{min-width:58px;font-size:10px;font-weight:800;color:#94a3b8;transition:all .2s}
 .nav-btn.active-icon{color:#a78bfa}
 .nav-btn span{line-height:1.1}
@@ -583,11 +586,11 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
     <div id="startup-loader" aria-label="   ">
         <div class="loader-wrap">
             <div class="loader-logo"><i data-lucide="sparkles"></i></div>
-            <div class="loader-title"> </div>
-            <div class="loader-sub">         </div>
+            <div class="loader-title">উপার্জন</div>
+            <div class="loader-sub">আপনার উপার্জন শুরু করুন</div>
             <div class="loader-track"><div id="loader-fill"></div></div>
             <div id="loader-percent">1%</div>
-            <div id="loader-status" class="loader-status">   </div>
+            <div id="loader-status" class="loader-status">লোড হচ্ছে...</div>
         </div>
     </div>
 
@@ -598,7 +601,7 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
                 <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
             </div>
             <div>
-                <h1 style="font-family: 'Space Grotesk';" class="text-base font-black tracking-tight"> </h1>
+                <h1 style="font-family: 'Hind Siliguri',sans-serif;" class="text-base font-black tracking-tight">উপার্জন</h1>
                 <p class="text-[7px] text-slate-500 uppercase tracking-[0.3em]">     </p>
             </div>
         </div>
@@ -611,11 +614,11 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
         
         <div id="home-page" class="page-content space-y-8">
             <div class="balance-card-static">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-2">   </p>
+                <p class="text-[10px] font-bold text-slate-400 mb-2">আপনার মোট ব্যালেন্স</p>
                 <h2 class="text-5xl font-black text-white tracking-tighter italic"> <span id="home-bal">0.00</span></h2>
                 <div class="mt-4 inline-flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
                     <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    <span class="text-[9px] font-black text-green-500 uppercase">Live    </span>
+                    <span class="text-[9px] font-black text-green-500">সক্রিয়</span>
                 </div>
             </div>
 
@@ -627,13 +630,13 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">OFFICIAL TASKS</h3>
+                <h3 class="text-[10px] font-black text-slate-300 pl-1">অফিশিয়াল টাস্ক</h3>
                 <div class="grid grid-cols-1 gap-3">
                     <div class="glass-item p-4 flex justify-between items-center border-blue-500/10">
                         <div class="flex items-center gap-3">
                             <i data-lucide="message-circle" class="w-5 h-5 text-blue-400"></i>
                             <div>
-                                <p class="text-[10px] font-black uppercase">Official Group</p>
+                                <p class="text-[10px] font-black">অফিশিয়াল গ্রুপ</p>
                                 <p id="status-group" class="text-[8px] text-blue-400 font-bold">Reward:  90.00</p>
                             </div>
                         </div>
@@ -644,7 +647,7 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
                         <div class="flex items-center gap-3">
                             <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
                             <div>
-                                <p class="text-[10px] font-black uppercase">Payment Proof</p>
+                                <p class="text-[10px] font-black">পেমেন্ট প্রমাণ</p>
                                 <p id="status-pay" class="text-[8px] text-green-400 font-bold">Reward:  90.00</p>
                             </div>
                         </div>
@@ -655,7 +658,7 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
                         <div class="flex items-center gap-3">
                             <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
                             <div>
-                                <p class="text-[10px] font-black uppercase">Sponsor Link</p>
+                                <p class="text-[10px] font-black">স্পনসর লিংক</p>
                                 <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward:  55.00</p>
                             </div>
                         </div>
@@ -686,7 +689,7 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">DAILY TASKS</h3>
+                <h3 class="text-[10px] font-black text-slate-300 pl-1">দৈনিক টাস্ক</h3>
                 <div id="main-tasks" class="space-y-3">
                 </div>
             </div>
@@ -870,7 +873,7 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
             lucide.createIcons();
             tg.expand();
             tg.headerColor = "#030303";
-            document.getElementById('ref-link').innerText = `https://t.me/uparjonnBot?start=${uid}`;
+            document.getElementById('ref-link').innerText = `http://t.me/uparjonnBot/app?startapp=${uid}`;
             
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
@@ -1284,7 +1287,7 @@ html,body,button,input,select,textarea{font-family:"Noto Sans Bengali","Hind Sil
         window.copyLink = () => {
             const link = document.getElementById('ref-link').innerText;
             navigator.clipboard.writeText(link);
-            tg.showAlert("       !");
+            tg.showAlert("রেফার লিংক কপি করা হয়েছে!");
         }
 
         function loadHistory() {
