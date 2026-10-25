@@ -707,10 +707,10 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
     <section id="withdraw-lock" class="payment-lock" aria-hidden="true">
         <div class="lock-head">
             <div class="lock-icon"><i data-lucide="lock-keyhole"></i></div>
-            <div><strong>উত্তোলন আনলক করুন</strong><p>উত্তোলনের জন্য ১৫টি বৈধ রেফার প্রয়োজন</p></div>
+            <div><strong>রেফার শর্ত যাচাই</strong><p>উত্তোলনের জন্য আপনার ১৫ জন রেফারকৃত ব্যবহারকারীর প্রত্যেককে অন্তত ১ জন করে নতুন ব্যবহারকারী রেফার করতে হবে। শর্ত পূরণ হলে উত্তোলন করা যাবে।</p></div>
         </div>
         <div class="payment-progress"><div id="prog-fill"></div></div>
-        <div class="lock-foot"><span>রেফার অগ্রগতি</span><b id="prog-text">0 / 15</b></div>
+        <div class="lock-foot"><span>নিজে রেফার করা ব্যবহারকারী</span><b id="prog-text">0 / 15</b></div>
     </section>
 
     <section class="payment-card">
@@ -771,7 +771,7 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
         </div>
         <div class="refer-link-box"><span id="ref-link"></span><button onclick="copyLink()" aria-label="রেফার লিংক কপি"><i data-lucide="copy"></i></button></div>
         <button onclick="copyLink()" class="refer-copy-btn"><i data-lucide="share-2"></i> রেফার লিংক কপি করুন</button>
-        <p class="refer-note"><i data-lucide="shield-check"></i> শুধু প্রকৃত নতুন ব্যবহারকারী বৈধ রেফার হিসেবে গণনা হবে।</p>
+        <p class="refer-note"><i data-lucide="shield-check"></i> উত্তোলনের সময় রেফার যাচাই হবে; আপনার রেফার করা প্রত্যেককে অন্তত ১ জন নতুন ব্যবহারকারী আনতে হবে।</p>
     </section>
 
     <section class="refer-steps-card">
@@ -883,6 +883,7 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 await setDoc(userRef, { 
                     uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", 
                     balance: 100.0, totalRefer: 0, 
+                    referredBy: (refBy && refBy !== uid) ? refBy : null,
                     adCount: 0,
                     tasksDone: [],
                     joinedBonus: [],
@@ -1167,22 +1168,70 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
         };
 
         window.submitWithdraw = async () => {
-            const refCount=userData?.totalRefer||0, lockPanel=document.getElementById('withdraw-lock');
-            if(refCount<15){if(lockPanel){lockPanel.classList.add('show');lockPanel.setAttribute('aria-hidden','false');}document.getElementById('prog-fill').style.width=`${Math.min(refCount,15)/15*100}%`;document.getElementById('prog-text').innerText=`${Math.min(refCount,15)} / 15`;tg.showAlert(`Withdraw     valid referral       ${refCount} `);return;}
+            const refCount = userData?.totalRefer || 0;
+            const lockPanel = document.getElementById('withdraw-lock');
+            const showLock = (message, qualifiedCount = 0) => {
+                if (lockPanel) {
+                    lockPanel.classList.add('show');
+                    lockPanel.setAttribute('aria-hidden', 'false');
+                }
+                document.getElementById('prog-fill').style.width =
+                    `${Math.min(qualifiedCount, 15) / 15 * 100}%`;
+                document.getElementById('prog-text').innerText =
+                    `${Math.min(qualifiedCount, 15)} / 15`;
+                tg.showAlert(message);
+            };
+
+            // First requirement: invite at least 15 users.
+            if (refCount < 15) {
+                showLock(
+                    `উত্তোলনের আগে অন্তত ১৫ জনকে রেফার করতে হবে। আপনার রেফার: ${refCount}/15`,
+                    refCount
+                );
+                return;
+            }
+
+            // Second requirement: each of 15 referred users must have referred
+            // at least one user themselves. This is checked when withdrawing.
+            try {
+                const referredQuery = query(
+                    collection(db, "users"),
+                    where("referredBy", "==", uid)
+                );
+                const referredSnap = await getDocs(referredQuery);
+                const qualifiedUsers = referredSnap.docs.filter(d => {
+                    const data = d.data();
+                    return (data.totalRefer || 0) >= 1;
+                });
+                const qualifiedCount = qualifiedUsers.length;
+
+                if (qualifiedCount < 15) {
+                    showLock(
+                        `আপনার মোট রেফার ${refCount} জন। কিন্তু উত্তোলনের শর্ত পূরণ করেছেন ${qualifiedCount}/15 জন।\n\nআপনার রেফার করা ১৫ জন ব্যবহারকারীর প্রত্যেককে অন্তত ১ জন করে নতুন ব্যবহারকারী রেফার করতে হবে। শর্ত পূরণ হলে আবার উত্তোলনের আবেদন করুন।`,
+                        qualifiedCount
+                    );
+                    return;
+                }
+            } catch (err) {
+                console.error("Referral verification failed:", err);
+                tg.showAlert("রেফার যাচাই করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।");
+                return;
+            }
+
             const amt = parseFloat(document.getElementById('amt').value);
-            const num = document.getElementById('num').value;
-            if(!amt || !num) return tg.showAlert("     ");
-            if(amt < 300) return tg.showAlert("     ");
-            if(amt > userData.balance) return tg.showAlert("   ");
-            
+            const num = document.getElementById('num').value.trim();
+            if (!amt || !num) return tg.showAlert("অনুগ্রহ করে উত্তোলনের পরিমাণ ও মোবাইল নম্বর দিন।");
+            if (amt < 300) return tg.showAlert("সর্বনিম্ন উত্তোলন ৩০০ টাকা।");
+            if (amt > userData.balance) return tg.showAlert("আপনার ব্যালেন্স পর্যাপ্ত নয়।");
+
             await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
-            await addDoc(collection(db, "withdrawals"), { 
-                uid, amount: amt, number: num, 
-                method: document.getElementById('gateway').value, 
-                status: "Pending", 
-                time: serverTimestamp() 
+            await addDoc(collection(db, "withdrawals"), {
+                uid, amount: amt, number: num,
+                method: document.getElementById('gateway').value,
+                status: "Pending",
+                time: serverTimestamp()
             });
-            tg.showAlert("     !");
+            tg.showAlert("আপনার উত্তোলনের আবেদন সফলভাবে জমা হয়েছে!");
             document.getElementById('amt').value = '';
             document.getElementById('num').value = '';
         };
