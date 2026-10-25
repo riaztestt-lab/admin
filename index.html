@@ -10,7 +10,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src='//libtl.com/sdk.js' data-zone='12112314' data-sdk='show_12112314'></script>
+    <script src='https://libtl.com/sdk.js' data-zone='12112314' data-sdk='show_12112314'></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
         
@@ -222,19 +222,19 @@
             opacity:0!important;visibility:hidden!important;pointer-events:none!important;
         }
         body.loader-active{overflow:hidden!important}
-        .loader-wrap{width:min(88vw,390px);text-align:center}
-        .loader-logo{
-            width:84px;height:84px;margin:0 auto 22px;border-radius:27px;
-            display:flex;align-items:center;justify-content:center;
-            background:linear-gradient(135deg,#7c3aed,#0891b2);
-            box-shadow:0 0 50px rgba(124,58,237,.38);
-        }
-        .loader-title{font-family:'Space Grotesk',sans-serif;font-size:29px;font-weight:900}
-        .loader-sub{color:#94a3b8;font-size:11px;margin:7px 0 25px}
-        .loader-track{height:11px;padding:2px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
-        #loader-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#8b5cf6,#06b6d4);transition:width .08s linear}
-        #loader-percent{margin-top:13px;font-size:23px;font-weight:900;font-variant-numeric:tabular-nums}
-        .loader-status{margin-top:6px;color:#64748b;font-size:9px;letter-spacing:.15em;text-transform:uppercase}
+        .loader-wrap{width:min(88vw,390px);text-align:center;position:relative;padding:30px 24px 27px;border:1px solid rgba(255,255,255,.10);border-radius:32px;background:linear-gradient(155deg,rgba(20,25,48,.92),rgba(8,11,24,.88));box-shadow:0 28px 90px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.06);backdrop-filter:blur(18px);overflow:hidden}
+        .loader-wrap:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(124,58,237,.18);filter:blur(48px);top:-110px;left:calc(50% - 95px);pointer-events:none}
+        .loader-logo{position:relative;width:92px;height:92px;margin:0 auto 22px;border-radius:30px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 48%,#0891b2 100%);border:1px solid rgba(255,255,255,.25);box-shadow:0 0 0 8px rgba(139,92,246,.08),0 0 55px rgba(124,58,237,.42);animation:loaderFloat 2s ease-in-out infinite}
+        .loader-logo i{width:42px;height:42px;stroke-width:1.8}
+        @keyframes loaderFloat{0%,100%{transform:translateY(0);box-shadow:0 0 0 8px rgba(139,92,246,.08),0 0 40px rgba(124,58,237,.35)}50%{transform:translateY(-5px);box-shadow:0 0 0 12px rgba(139,92,246,.05),0 0 58px rgba(6,182,212,.30)}}
+        .loader-title{position:relative;font-family:'Hind Siliguri','Space Grotesk',sans-serif;font-size:34px;font-weight:900;letter-spacing:.2px;background:linear-gradient(90deg,#fff,#c4b5fd,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .loader-sub{position:relative;color:#a5b4fc;font-size:12px;margin:5px 0 29px}
+        .loader-track{height:12px;padding:2px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.25)}
+        #loader-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#8b5cf6,#6366f1,#06b6d4,#67e8f9);background-size:200% 100%;animation:loaderShimmer 1.5s linear infinite;box-shadow:0 0 18px rgba(34,211,238,.45);transition:width .06s linear}
+        @keyframes loaderShimmer{from{background-position:100% 0}to{background-position:-100% 0}}
+        #loader-percent{margin-top:17px;font-size:30px;line-height:1.2;font-weight:900;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 22px rgba(139,92,246,.45)}
+        .loader-status{margin-top:9px;color:#94a3b8;font-size:11px;letter-spacing:0;text-transform:none;min-height:18px}
+        .loader-dots{display:flex;justify-content:center;gap:6px;margin-top:19px}.loader-dots span{width:5px;height:5px;border-radius:50%;background:#8b5cf6;animation:loaderDot 1s ease-in-out infinite}.loader-dots span:nth-child(2){animation-delay:.15s;background:#818cf8}.loader-dots span:nth-child(3){animation-delay:.3s;background:#22d3ee}@keyframes loaderDot{0%,70%,100%{opacity:.3;transform:scale(.8)}35%{opacity:1;transform:scale(1.25)}}
 
 
         /* === UNIQUE AURORA / HOLOGRAPHIC UI === */
@@ -590,7 +590,8 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
             <div class="loader-sub">আপনার উপার্জন শুরু করুন</div>
             <div class="loader-track"><div id="loader-fill"></div></div>
             <div id="loader-percent">1%</div>
-            <div id="loader-status" class="loader-status">লোড হচ্ছে...</div>
+            <div id="loader-status" class="loader-status">আপনার অ্যাপ প্রস্তুত করা হচ্ছে...</div>
+            <div class="loader-dots" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
     </div>
 
@@ -629,6 +630,35 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 <div><b> 100</b><span>রেফার বোনাস</span></div>
             </div>
 
+            <div class="ad-center-card">
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4"><div><p class="text-[9px] text-cyan-300 font-black uppercase tracking-[0.22em]">দৈনিক বিজ্ঞাপন</p><h3 class="text-lg font-black mt-1">বিজ্ঞাপন দেখে আয় করুন</h3></div><div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center"><i data-lucide="play" class="w-5 h-5 text-cyan-300"></i></div></div>
+                    <div class="flex items-end justify-between mb-2"><div><p id="ad-number" class="text-2xl font-black">0 / 20</p><p id="ad-status" class="text-[9px] text-slate-400 mt-1">আজকের বিজ্ঞাপন</p></div><p class="text-sm font-black text-cyan-300">দৈনিক ২০টি</p></div>
+                    <div class="ad-progress mb-4"><div id="ad-progress-fill"></div></div>
+                    <button id="ad-watch-btn" onclick="watchNextAd()" class="w-full py-3 text-[10px] font-black uppercase text-white flex items-center justify-center gap-2"><i data-lucide="play-circle" class="w-4 h-4"></i> বিজ্ঞাপন দেখুন</button>
+                    <p class="text-center text-[8px] text-slate-500 mt-3">বিজ্ঞাপন সম্পন্ন হলে প্রযোজ্য পুরস্কার যোগ হবে</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="changePage('official-task-page', null)" class="glass-item p-5 flex items-center gap-4 text-left w-full">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-violet-600/30 to-cyan-500/20 border border-violet-400/20"><i data-lucide="badge-check" class="w-7 h-7 text-cyan-300"></i></div>
+                    <div class="flex-1"><h3 class="text-base font-black text-white">অফিশিয়াল টাস্ক</h3><p class="text-xs text-slate-400 mt-1">গ্রুপে যোগ দিন ও অফিসিয়াল টাস্ক সম্পন্ন করুন</p></div>
+                    <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400"></i>
+                </button>
+                <button onclick="changePage('daily-task-page', null)" class="glass-item p-5 flex items-center gap-4 text-left w-full">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-cyan-500/25 to-emerald-500/20 border border-cyan-400/20"><i data-lucide="calendar-check" class="w-7 h-7 text-emerald-300"></i></div>
+                    <div class="flex-1"><h3 class="text-base font-black text-white">ডেইলি টাস্ক</h3><p class="text-xs text-slate-400 mt-1">প্রতিদিনের বিজ্ঞাপন ও টাস্ক সম্পন্ন করে আয় করুন</p></div>
+                    <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="official-task-page" class="page-content hidden space-y-5">
+            <div class="flex items-center gap-3">
+                <button onclick="changePage('home-page', null)" class="glass-item p-3" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+                <div><h2 class="text-xl font-black">অফিশিয়াল টাস্ক</h2><p class="text-xs text-slate-400 mt-1">নিচের টাস্কগুলো সম্পন্ন করুন</p></div>
+            </div>
             <div class="space-y-4">
                 <h3 class="text-[10px] font-black text-slate-300 pl-1">অফিশিয়াল টাস্ক</h3>
                 <div class="grid grid-cols-1 gap-3">
@@ -678,15 +708,14 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 </div>
             </div>
 
-            <div class="ad-center-card">
-                <div class="relative z-10">
-                    <div class="flex items-center justify-between mb-4"><div><p class="text-[9px] text-cyan-300 font-black uppercase tracking-[0.22em]">দৈনিক বিজ্ঞাপন</p><h3 class="text-lg font-black mt-1">বিজ্ঞাপন দেখে আয় করুন</h3></div><div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center"><i data-lucide="play" class="w-5 h-5 text-cyan-300"></i></div></div>
-                    <div class="flex items-end justify-between mb-2"><div><p id="ad-number" class="text-2xl font-black">0 / 20</p><p id="ad-status" class="text-[9px] text-slate-400 mt-1">আজকের বিজ্ঞাপন</p></div><p class="text-sm font-black text-cyan-300">দৈনিক ২০টি</p></div>
-                    <div class="ad-progress mb-4"><div id="ad-progress-fill"></div></div>
-                    <button id="ad-watch-btn" onclick="watchNextAd()" class="w-full py-3 text-[10px] font-black uppercase text-white flex items-center justify-center gap-2"><i data-lucide="play-circle" class="w-4 h-4"></i> বিজ্ঞাপন দেখুন</button>
-                    <p class="text-center text-[8px] text-slate-500 mt-3">বিজ্ঞাপন সম্পন্ন হলে প্রযোজ্য পুরস্কার যোগ হবে</p>
-                </div>
+        </div>
+
+        <div id="daily-task-page" class="page-content hidden space-y-5">
+            <div class="flex items-center gap-3">
+                <button onclick="changePage('home-page', null)" class="glass-item p-3" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+                <div><h2 class="text-xl font-black">ডেইলি টাস্ক</h2><p class="text-xs text-slate-400 mt-1">প্রতিদিনের বিজ্ঞাপন ও টাস্ক</p></div>
             </div>
+
 
             <div class="space-y-4">
                 <h3 class="text-[10px] font-black text-slate-300 pl-1">দৈনিক টাস্ক</h3>
@@ -1091,79 +1120,77 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 tries++;
                 if(typeof window.show_12112314==='function'){
                     clearInterval(timer); resolve(window.show_12112314);
-                }else if(tries>=30){
-                    clearInterval(timer); reject(new Error('Monetag SDK did not load'));
+                }else if(tries>=40){
+                    clearInterval(timer); reject(new Error('Monetag SDK did not load. Check internet, SDK URL and Zone ID.'));
                 }
             },500);
         });
 
         window.watchNextAd=async()=>{
             if(adCountdownRunning||!userData)return;
-            const today=new Date().toDateString(), isNewDay=userData.lastDate!==today, currentCount=isNewDay?0:(userData.adCount||0);
+            const today=new Date().toDateString();
+            const isNewDay=userData.lastDate!==today;
+            const currentCount=isNewDay?0:(userData.adCount||0);
             if(currentCount>=20)return tg.showAlert('আজকের ২০টি বিজ্ঞাপন দেখা সম্পন্ন হয়েছে।');
 
-            const btn=document.getElementById('ad-watch-btn'),status=document.getElementById('ad-status');
+            const btn=document.getElementById('ad-watch-btn');
+            const status=document.getElementById('ad-status');
+            if(!btn||!status)return;
             adCountdownRunning=true; window.adCountdownRunning=true;
-            btn.disabled=true; btn.style.opacity='.55'; btn.innerText='AD LOAD...';
-            status.innerText='     ...';
+            btn.disabled=true; btn.style.opacity='.55'; btn.innerText='বিজ্ঞাপন লোড হচ্ছে...';
+            status.innerText='Monetag বিজ্ঞাপন প্রস্তুত হচ্ছে';
 
             try{
                 const monetagAd=await waitForMonetag();
-                status.innerText='     ...';
-                await Promise.resolve(monetagAd());
+                status.innerText='বিজ্ঞাপন খুলছে—অনুগ্রহ করে অপেক্ষা করুন';
+                // Prevent the UI from remaining in Loading forever if the SDK stalls.
+                const adResult=await Promise.race([
+                    monetagAd({ymid:String(uid),requestVar:'daily_task',timeout:15}),
+                    new Promise((_,reject)=>setTimeout(()=>reject(new Error('Monetag request timed out')),30000))
+                ]);
+                if(adResult && adResult.reward_event_type==='non_valued'){
+                    throw new Error('Monetag reported a non-valued ad event.');
+                }
 
-                let sec=15;
-                status.innerText=`      ${sec}    `;
-                btn.innerText=`${sec}S`;
+                status.innerText='রিওয়ার্ড যোগ হচ্ছে...';
+                const next=currentCount+1;
+                const obj={balance:increment(40),adCount:next,lastDate:today};
+                if(isNewDay)obj.tasksDone=[];
+                const userRef=doc(db,'users',uid);
+                await updateDoc(userRef,obj);
+                const freshSnap=await getDoc(userRef);
+                if(freshSnap.exists())userData={...freshSnap.data(),uid};
 
-                const timer=setInterval(async()=>{
-                    sec--;
-                    if(sec>0){
-                        status.innerText=`      ${sec}    `;
-                        btn.innerText=`${sec}S`;
-                        return;
-                    }
-                    clearInterval(timer);
-
-                    try {
-                        const next=currentCount+1;
-                        const obj={balance:increment(40),adCount:next,lastDate:today};
-                        if(isNewDay)obj.tasksDone=[];
-
-                        const userRef = doc(db,'users',uid);
-                        await updateDoc(userRef,obj);
-                        const freshSnap = await getDoc(userRef);
-                        if(freshSnap.exists()) userData = { ...freshSnap.data(), uid };
-
-                        tg.HapticFeedback.notificationOccurred('success');
-                        tg.showAlert('         !');
-                        updateUI();
-
-                        adCountdownRunning=false; window.adCountdownRunning=false;
-
-                        if(next>=20){
-                            status.innerText='         ';
-                            btn.innerText='     ';
-                            btn.style.opacity='.5';
-                        }else{
-                            status.innerText=`${20-next}           `;
-                            btn.disabled=false; btn.style.opacity='1';
-                            btn.innerText='     ';
-                        }
-                    } catch (saveErr) {
-                        console.error('Reward save error:', saveErr);
-                        adCountdownRunning=false; window.adCountdownRunning=false;
-                        btn.disabled=false; btn.style.opacity='1'; btn.innerText='     ';
-                        status.innerText='Reward save  ';
-                        tg.showAlert('Ad    ,   balance save        ');
-                    }
-                },1000);
+                try{tg.HapticFeedback.notificationOccurred('success');}catch(e){}
+                tg.showAlert('বিজ্ঞাপন সম্পন্ন! আপনার ব্যালেন্সে ৪০ টাকা যোগ হয়েছে।');
+                updateUI();
+                if(next>=20){
+                    status.innerText='আজকের ২০টি বিজ্ঞাপন সম্পন্ন';
+                    btn.innerText='আজকের কাজ শেষ';
+                    btn.style.opacity='.5';
+                }else{
+                    status.innerText=`আর ${20-next}টি বিজ্ঞাপন বাকি`;
+                    btn.disabled=false;btn.style.opacity='1';btn.innerText='বিজ্ঞাপন দেখুন';
+                }
             }catch(err){
-                console.error('Monetag error:',err);
-                adCountdownRunning=false; window.adCountdownRunning=false;
-                btn.disabled=false; btn.style.opacity='1'; btn.innerText='     ';
-                status.innerText='     ';
-                tg.showAlert('Monetag ad load            ');
+                console.error('Monetag ad error:',err);
+                status.innerText='বিজ্ঞাপন লোড হয়নি। আবার চেষ্টা করুন।';
+                btn.disabled=false;btn.style.opacity='1';btn.innerText='আবার বিজ্ঞাপন দেখুন';
+                const msg=String(err?.message||err);
+                if(msg.toLowerCase().includes('empty feed')){
+                    tg.showAlert('এই মুহূর্তে Monetag বিজ্ঞাপন নেই (Empty feed)। কিছুক্ষণ পর আবার চেষ্টা করুন।');
+                }else if(msg.toLowerCase().includes('verify')){
+                    tg.showAlert('Monetag বিজ্ঞাপন যাচাই করতে পারেনি। Telegram-এর ভেতরে আবার চেষ্টা করুন।');
+                }else if(msg.toLowerCase().includes('timed out') || msg.toLowerCase().includes('timeout')){
+                    status.innerText='Monetag সাড়া দিচ্ছে না। ইন্টারনেট/Zone ID পরীক্ষা করে আবার চেষ্টা করুন।';
+                    tg.showAlert('Monetag ৩০ সেকেন্ডেও সাড়া দেয়নি। সঠিক Main Zone ID, SDK লোড এবং Telegram Mini App পরীক্ষা করুন।');
+                }else if(msg.toLowerCase().includes('sdk did not load')){
+                    tg.showAlert('Monetag SDK লোড হয়নি। ইন্টারনেট, libtl.com এবং Zone ID পরীক্ষা করুন।');
+                }else{
+                    tg.showAlert('Monetag বিজ্ঞাপন চালু হয়নি। ইন্টারনেট ও Monetag Main Zone ID পরীক্ষা করুন।');
+                }
+            }finally{
+                adCountdownRunning=false;window.adCountdownRunning=false;
             }
         };
 
@@ -1319,11 +1346,13 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 n.classList.remove('active-icon');
                 n.classList.add('text-slate-600');
             });
-            btn.classList.add('active-icon');
-            btn.classList.remove('text-slate-600');
+            if (btn && btn.classList.contains('nav-btn')) {
+                btn.classList.add('active-icon');
+                btn.classList.remove('text-slate-600');
+            }
             lucide.createIcons();
             tg.HapticFeedback.impactOccurred('medium');
-            if(id === 'home-page') renderTasks();
+            if(id === 'home-page' || id === 'daily-task-page') renderTasks();
             if(id === 'refer-page'){
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 setTimeout(() => {
@@ -1355,55 +1384,40 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
             });
         }
 
-        // Premium 1%-100% startup loading animation
+        // Premium 1%-100% loader on every app opening
         function runStartupLoader(){
             const loader = document.getElementById('startup-loader');
             const fill = document.getElementById('loader-fill');
             const percent = document.getElementById('loader-percent');
             const status = document.getElementById('loader-status');
-
-            // Show the 1-100% loader only on the first app opening.
-            // Returning from a task/ad must not look like a fresh login.
-            let alreadyLoaded = false;
-            try { alreadyLoaded = localStorage.getItem('uparjon_loader_seen') === '1'; } catch(e) {}
-
-            if(alreadyLoaded){
-                if(loader) loader.classList.add('hide');
-                document.body.classList.remove('loader-active');
-                return;
-            }
-
+            if(!loader || !fill || !percent) return;
+            loader.classList.remove('hide');
             document.body.classList.add('loader-active');
-            if(!loader || !fill || !percent){
-                document.body.classList.remove('loader-active');
-                return;
-            }
-
             let progress = 0;
             const statusAt = (p) => {
-                if(p < 20) return "   ";
-                if(p < 45) return "     ";
-                if(p < 70) return "     ";
-                if(p < 90) return "     ";
-                if(p < 100) return "   ";
-                return "   ";
+                if(p < 20) return 'স্বাগতম! অ্যাপ চালু হচ্ছে';
+                if(p < 45) return 'আপনার তথ্য প্রস্তুত করা হচ্ছে';
+                if(p < 70) return 'টাস্ক ও রিওয়ার্ড লোড হচ্ছে';
+                if(p < 90) return 'আপনার ড্যাশবোর্ড তৈরি হচ্ছে';
+                if(p < 100) return 'আর মাত্র একটু অপেক্ষা করুন';
+                return 'সব প্রস্তুত! স্বাগতম 🎉';
             };
-
+            fill.style.width = '0%';
+            percent.textContent = '1%';
+            if(status) status.textContent = statusAt(1);
             const timer = setInterval(() => {
-                progress++;
-                fill.style.width = progress + "%";
-                percent.textContent = progress + "%";
+                progress = Math.min(100, progress + 1);
+                fill.style.width = progress + '%';
+                percent.textContent = progress + '%';
                 if(status) status.textContent = statusAt(progress);
-
                 if(progress >= 100){
                     clearInterval(timer);
-                    try { localStorage.setItem('uparjon_loader_seen','1'); } catch(e) {}
                     setTimeout(() => {
                         loader.classList.add('hide');
                         document.body.classList.remove('loader-active');
-                    }, 450);
+                    }, 550);
                 }
-            }, 22);
+            }, 24);
         }
         runStartupLoader();
         init();
