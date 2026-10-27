@@ -773,6 +773,15 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
         <div><strong>নিরাপদ উত্তোলন</strong><p>আবেদন জমা দেওয়ার আগে আপনার তথ্য যাচাই করুন।</p></div>
         <span>SECURE</span>
     </section>
+    <section id="sample-withdraw-history" class="space-y-4 mt-5">
+      <div class="flex items-center justify-between gap-3">
+        <div><h3 class="text-sm font-black text-white">Withdraw History</h3><p class="text-[10px] text-slate-400 mt-1"></p></div>
+        <span id="sample-total-count" class="text-xs font-black text-emerald-300"></span>
+      </div>
+      <div class="rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-[10px] leading-relaxed text-amber-200">💵 উপার্জন 💰 পেমেন্ট</div>
+      <div><h4 class="text-xs font-bold text-emerald-300 mb-2">সাম্প্রতিক Approved </h4><div id="sample-approved-list" class="space-y-2"></div></div>
+      <div><h4 class="text-xs font-bold text-amber-300 mb-2">সাম্প্রতিক Pending </h4><div id="sample-pending-list" class="space-y-2"></div></div>
+    </section>
     <div id="txn-history" class="space-y-3"></div>
 </div>
 
@@ -1419,6 +1428,55 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 }
             }, 24);
         }
+
+        // Sample-only withdrawal records: not real transactions or user requests.
+        (function initSampleWithdrawHistory(){
+          const approvedBox = document.getElementById('sample-approved-list');
+          const pendingBox = document.getElementById('sample-pending-list');
+          if(!approvedBox || !pendingBox) return;
+          const twoHours = 2 * 60 * 60 * 1000;
+          const methods = ['bKash','Nagad'];
+          const amounts = [300,350,400,450,500,600,700,800,1000,1200,1500,2000,2500,3000,5000];
+          function seedForWindow(){ return Math.floor(Date.now()/twoHours); }
+          function makeRng(seed){
+            let x = seed >>> 0;
+            return function(){ x = (1664525*x + 1013904223) >>> 0; return x / 4294967296; };
+          }
+          function buildRows(seed){
+            const rand = makeRng(seed);
+            const rows=[];
+            for(let i=0;i<600;i++){
+              const method=methods[Math.floor(rand()*methods.length)];
+              const amount=amounts[Math.floor(rand()*amounts.length)];
+              const phone='01'+String(Math.floor(300000000 + rand()*699999999)).padStart(9,'0');
+              const status=i<300?'Approved':'Pending';
+              // Sample timestamps: shown in 2-minute increments for each status list.
+              const minutesAgo=status==='Pending' ? 2+(i-300)*2 : 2+i*2;
+              rows.push({id:i+1,method,amount,phone:phone.slice(0,5)+'****'+phone.slice(-2),status,minutesAgo});
+            }
+            return rows;
+          }
+          function card(row){
+            const isApproved=row.status==='Approved';
+            const brand=row.method==='bKash'?'#e2136e':'#f28c28';
+            const mark=row.method==='bKash'?'bKash':'Nagad';
+            const ago=row.minutesAgo<60?row.minutesAgo+' মিনিট আগে':Math.floor(row.minutesAgo/60)+' ঘণ্টা আগে';
+            return `<div class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.035] p-3">
+              <div style="width:40px;height:40px;flex-shrink:0;border-radius:12px;background:${brand};display:flex;align-items:center;justify-content:center;color:white;font-size:9px;font-weight:900">${mark}</div>
+              <div class="min-w-0 flex-1"><div class="text-xs font-bold text-white">${row.phone}</div><div class="text-[10px] text-slate-400 mt-1">${row.method} · ${ago}</div></div>
+              <div class="text-right"><div class="text-xs font-black text-white">৳${row.amount.toLocaleString('en-US')}</div><div class="text-[9px] font-bold mt-1" style="color:${isApproved?'#34d399':'#fbbf24'}">${row.status}</div></div>
+            </div>`;
+          }
+          function render(){
+            const rows=buildRows(seedForWindow());
+            approvedBox.innerHTML=rows.filter(r=>r.status==='Approved').slice(0,5).map(card).join('');
+            pendingBox.innerHTML=rows.filter(r=>r.status==='Pending').slice(0,5).map(card).join('');
+            const next=twoHours-(Date.now()%twoHours);
+            setTimeout(render,next+1000);
+          }
+          render();
+        })();
+
         runStartupLoader();
         init();
     </script>
