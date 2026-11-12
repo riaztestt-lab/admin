@@ -555,7 +555,12 @@
             box-shadow:0 12px 32px rgba(124,58,237,.28);
         }
 
-    </style>
+            @media(max-width:430px){
+            .nav-glass{padding-left:5px!important;padding-right:5px!important}
+            .nav-btn{min-width:0!important;width:16.2%!important;height:49px!important;font-size:8px!important;gap:4px!important}
+            .nav-btn i{width:18px!important;height:18px!important}
+        }
+</style>
 
 <style>
 html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Bengali",sans-serif!important;font-synthesis:none;text-rendering:optimizeLegibility}
@@ -580,7 +585,163 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
 @media(max-width:360px){.nav-glass{padding-left:8px!important;padding-right:8px!important}.nav-btn{min-width:52px;font-size:9px}}
 </style>
 
-</head>
+
+
+<style>
+/* Distinct visual identity: Official missions */
+#official-task-page,#daily-task-page{padding-top:3px}
+.task-page-topline{display:flex;align-items:center;gap:13px;padding:2px 1px 5px}
+.task-back-btn{width:43px;height:43px;flex:none;border-radius:15px;display:grid;place-items:center;color:#e0e7ff;background:linear-gradient(145deg,rgba(139,92,246,.22),rgba(34,211,238,.08));border:1px solid rgba(167,139,250,.20);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.task-back-btn svg{width:19px;height:19px}
+.task-eyebrow{font:800 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.24em;color:#a5b4fc}
+.task-page-topline h2{font-size:21px;font-weight:900;line-height:1.35;color:#fff}
+.official-hero{position:relative;overflow:hidden;min-height:218px;padding:22px 20px 17px;border-radius:28px;background:radial-gradient(circle at 88% 12%,rgba(56,189,248,.24),transparent 31%),radial-gradient(circle at 0% 100%,rgba(99,102,241,.34),transparent 42%),linear-gradient(130deg,#101b37,#11102b 55%,#071c2c);border:1px solid rgba(125,211,252,.18);box-shadow:0 24px 55px rgba(0,0,0,.28)}
+.official-orbit{position:absolute;border:1px solid rgba(125,211,252,.13);border-radius:50%;pointer-events:none}
+.orbit-a{width:210px;height:210px;right:-78px;top:-112px;box-shadow:0 0 0 18px rgba(125,211,252,.025),0 0 0 38px rgba(125,211,252,.02)}
+.orbit-b{width:135px;height:135px;right:-40px;bottom:-88px}
+.official-hero-content{position:relative;z-index:1}
+.official-emblem{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;position:relative;color:#a5f3fc;background:linear-gradient(145deg,rgba(34,211,238,.22),rgba(99,102,241,.20));border:1px solid rgba(165,243,252,.28);box-shadow:0 0 30px rgba(34,211,238,.13)}
+.official-emblem svg{width:27px;height:27px}
+.official-emblem span{position:absolute;width:7px;height:7px;border-radius:50%;background:#4ade80;right:7px;top:7px;box-shadow:0 0 10px #4ade80}
+.official-label{font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.23em;color:#67e8f9;margin-top:15px}
+.official-hero h3{font-size:19px;font-weight:900;margin-top:5px;color:#f8fafc}
+.official-hero-content>p{font-size:9px;color:#a5b4c8;line-height:1.8;margin-top:5px;max-width:280px}
+.official-hero-foot{display:flex;justify-content:space-between;align-items:center;margin-top:15px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-size:8px;font-weight:800;color:#bae6fd}
+.official-hero-foot span{display:flex;align-items:center;gap:6px}.official-hero-foot svg{width:13px;height:13px;color:#67e8f9}
+.task-section-heading,.daily-list-heading{display:flex;align-items:center;justify-content:space-between;padding:2px 2px}
+.task-section-heading span,.daily-list-heading>div:first-child>span{font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.22em;color:#818cf8}
+.task-section-heading h3,.daily-list-heading h3{font-size:14px;font-weight:900;color:#f8fafc;margin-top:4px}
+.section-count{font:900 13px 'Space Grotesk',sans-serif;color:#a5b4fc;background:rgba(99,102,241,.12);border:1px solid rgba(129,140,248,.17);padding:8px 11px;border-radius:12px}
+.official-mission-list{display:grid;gap:11px}
+.official-task-card{position:relative;display:flex;align-items:center;gap:11px;padding:13px 11px;border-radius:21px;background:linear-gradient(115deg,rgba(22,31,56,.96),rgba(10,15,30,.96));border:1px solid rgba(255,255,255,.075);box-shadow:0 12px 30px rgba(0,0,0,.20);overflow:hidden}
+.official-task-card:after{content:"";position:absolute;left:0;top:13px;bottom:13px;width:3px;border-radius:0 8px 8px 0;background:var(--mission-color)}
+.official-blue{--mission-color:#38bdf8}.official-green{--mission-color:#34d399}.official-violet{--mission-color:#a78bfa}.official-orange{--mission-color:#fb923c}
+.mission-symbol{position:relative;width:47px;height:49px;flex:none;border-radius:15px;display:grid;place-items:center;color:var(--mission-color);background:color-mix(in srgb,var(--mission-color) 13%,transparent);border:1px solid color-mix(in srgb,var(--mission-color) 24%,transparent)}
+.mission-symbol svg{width:21px;height:21px}
+.mission-symbol b{position:absolute;right:4px;bottom:3px;font:800 6px 'Plus Jakarta Sans',sans-serif;opacity:.55}
+.mission-info{flex:1;min-width:0}
+.mission-tag{font:900 6px 'Plus Jakarta Sans',sans-serif;letter-spacing:.15em;color:var(--mission-color);opacity:.9}
+.mission-info h4{font-size:11px;font-weight:900;color:#f8fafc;margin-top:3px}
+.mission-info p{font-size:8px;font-weight:800;color:var(--mission-color);margin-top:4px}
+.mission-action{height:37px;min-width:67px;padding:0 9px;display:flex;align-items:center;justify-content:center;gap:4px;border-radius:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--mission-color) 28%,#172033),rgba(15,23,42,.95));border:1px solid color-mix(in srgb,var(--mission-color) 35%,transparent);color:#fff;font:900 8px 'Plus Jakarta Sans',sans-serif;white-space:nowrap}
+.mission-action svg{width:12px;height:12px}
+.official-footnote{display:flex;gap:9px;align-items:flex-start;padding:13px 14px;border-radius:16px;background:rgba(56,189,248,.055);border:1px solid rgba(56,189,248,.10);color:#94a3b8;font-size:8px;line-height:1.7}
+.official-footnote svg{width:15px;height:15px;flex:none;color:#67e8f9}
+
+/* Daily tasks: bright emerald / electric-lime challenge theme */
+.daily-topline .task-back-btn{background:linear-gradient(145deg,rgba(16,185,129,.20),rgba(163,230,53,.08));border-color:rgba(52,211,153,.20);color:#a7f3d0}
+.daily-topline .task-eyebrow{color:#6ee7b7}
+.daily-hero{position:relative;overflow:hidden;padding:18px 18px 14px;border-radius:29px;background:radial-gradient(circle at 82% 18%,rgba(163,230,53,.20),transparent 29%),radial-gradient(circle at 0% 100%,rgba(16,185,129,.24),transparent 42%),linear-gradient(140deg,#082c2a,#0b2428 52%,#111d31);border:1px solid rgba(52,211,153,.18);box-shadow:0 24px 55px rgba(0,0,0,.28)}
+.daily-hero-art{height:105px;position:relative;display:flex;align-items:center;justify-content:center}
+.daily-ring{position:absolute;border:1px solid rgba(110,231,183,.19);border-radius:50%;transform:rotate(-24deg)}
+.ring-one{width:90px;height:90px;box-shadow:0 0 0 12px rgba(16,185,129,.035),0 0 0 25px rgba(16,185,129,.025)}
+.ring-two{width:132px;height:66px;border-color:rgba(190,242,100,.20);transform:rotate(35deg)}
+.daily-hero-icon{width:66px;height:66px;display:grid;place-items:center;border-radius:23px;color:#d9f99d;background:linear-gradient(145deg,rgba(16,185,129,.34),rgba(163,230,53,.13));border:1px solid rgba(190,242,100,.32);box-shadow:0 0 40px rgba(52,211,153,.18),inset 0 1px rgba(255,255,255,.12);z-index:1}
+.daily-hero-icon svg{width:31px;height:31px}
+.daily-spark{position:absolute;color:#bef264;font-size:20px}.spark-one{right:22%;top:8px}.spark-two{left:23%;bottom:9px;color:#6ee7b7}
+.daily-hero-copy{text-align:center;position:relative;z-index:1}
+.daily-hero-copy>span{font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.24em;color:#6ee7b7}
+.daily-hero-copy h3{font-size:20px;font-weight:900;color:#f0fdf4;margin-top:5px}
+.daily-hero-copy p{font-size:9px;color:#9cb8b0;margin-top:5px}
+.daily-hero-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:17px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-size:8px;color:#a7f3d0;font-weight:800}
+.daily-hero-bottom span{display:flex;align-items:center;gap:6px}.daily-hero-bottom svg{width:13px;height:13px}
+.daily-hero-bottom b{color:#d9f99d;background:rgba(163,230,53,.10);border:1px solid rgba(190,242,100,.13);padding:6px 10px;border-radius:99px}
+.daily-date-mark{display:flex;align-items:center;gap:5px;font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.1em;color:#86efac;background:rgba(16,185,129,.10);border:1px solid rgba(52,211,153,.13);padding:8px 10px;border-radius:99px}
+.daily-date-mark svg{width:12px;height:12px}
+.daily-task-list{display:grid;gap:10px}
+.daily-task-card{display:flex;align-items:center;gap:10px;min-height:78px;padding:11px;border-radius:20px;background:linear-gradient(110deg,rgba(13,42,42,.96),rgba(12,22,35,.96));border:1px solid rgba(52,211,153,.11);box-shadow:0 12px 28px rgba(0,0,0,.18);position:relative;overflow:hidden}
+.daily-task-card:before{content:"";position:absolute;right:-28px;top:-42px;width:95px;height:95px;border-radius:50%;background:rgba(16,185,129,.055)}
+.daily-task-number{width:39px;flex:none;display:flex;flex-direction:column;align-items:center;gap:2px}
+.daily-task-number span{font:900 5px 'Plus Jakarta Sans',sans-serif;letter-spacing:.1em;color:#6ee7b7}
+.daily-task-number b{font:900 18px 'Space Grotesk',sans-serif;color:#d1fae5}
+.daily-task-icon{width:39px;height:39px;flex:none;border-radius:13px;display:grid;place-items:center;color:#a3e635;background:linear-gradient(145deg,rgba(16,185,129,.19),rgba(163,230,53,.08));border:1px solid rgba(163,230,53,.14)}
+.daily-task-icon svg{width:19px;height:19px}
+.daily-task-details{flex:1;min-width:0;position:relative;z-index:1}
+.daily-task-title{font-size:10px;font-weight:900;color:#f0fdf4}
+.daily-task-reward{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:900;color:#a3e635;margin-top:6px}
+.daily-task-reward svg{width:12px;height:12px}
+.daily-task-card>button{position:relative;z-index:1;min-width:76px;padding:10px 9px;border-radius:12px;font-size:8px;font-weight:900}
+.daily-task-card>button:not(:disabled){background:linear-gradient(120deg,#059669,#65a30d)!important;color:#fff;box-shadow:0 7px 18px rgba(16,185,129,.18)}
+.daily-task-card>button:disabled{background:rgba(100,116,139,.25)!important;color:#cbd5e1}
+.daily-task-card.task-is-done{opacity:.62;border-color:rgba(52,211,153,.20)}
+.daily-tip{display:flex;align-items:flex-start;gap:10px;padding:14px;border-radius:17px;background:linear-gradient(110deg,rgba(163,230,53,.07),rgba(16,185,129,.05));border:1px solid rgba(163,230,53,.10)}
+.daily-tip>svg{width:17px;height:17px;flex:none;color:#bef264}
+.daily-tip b{font-size:9px;color:#d9f99d}.daily-tip p{font-size:8px;line-height:1.7;color:#94a3b8;margin-top:3px}
+@media(max-width:380px){.official-task-card{gap:8px;padding:11px 9px}.mission-symbol{width:41px;height:45px}.mission-action{min-width:59px;padding:0 6px}.daily-task-card{gap:7px;padding:9px}.daily-task-card>button{min-width:67px}}
+</style>
+\n
+
+<style>
+/* Individual task action buttons: custom shapes, gradients and states */
+.official-task-card .mission-action{
+    position:relative;isolation:isolate;overflow:hidden;
+    min-width:78px;height:40px;padding:0 11px;
+    border-radius:13px 13px 13px 5px;
+    font-size:8px;font-weight:900;letter-spacing:.04em;
+    transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+.official-task-card .mission-action:before{
+    content:"";position:absolute;inset:0;z-index:-1;opacity:.95;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--mission-color) 72%,#172554),color-mix(in srgb,var(--mission-color) 30%,#071426));
+}
+.official-task-card .mission-action:after{
+    content:"";position:absolute;top:-80%;left:-55%;width:35%;height:260%;
+    transform:rotate(25deg);background:rgba(255,255,255,.24);
+    transition:left .45s ease;pointer-events:none;
+}
+.official-task-card .mission-action:hover:after{left:130%}
+.official-task-card .mission-action:active{transform:scale(.94);filter:brightness(1.18)}
+.official-task-card .mission-action svg{width:13px;height:13px;stroke-width:2.7}
+.official-blue .mission-action{box-shadow:0 7px 20px rgba(56,189,248,.18)}
+.official-green .mission-action{box-shadow:0 7px 20px rgba(52,211,153,.16)}
+.official-violet .mission-action{box-shadow:0 7px 20px rgba(167,139,250,.16)}
+.official-orange .mission-action{box-shadow:0 7px 20px rgba(251,146,60,.16)}
+
+.daily-task-card .daily-start-btn{
+    position:relative;isolation:isolate;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    min-width:91px;height:41px;padding:0 10px;
+    border-radius:13px 7px 13px 13px;
+    border:1px solid rgba(190,242,100,.30);
+    background:linear-gradient(125deg,#047857 0%,#059669 48%,#65a30d 100%)!important;
+    color:#f0fdf4!important;
+    font:900 8px 'Hind Siliguri',sans-serif;
+    letter-spacing:.02em;
+    box-shadow:0 8px 22px rgba(16,185,129,.23),inset 0 1px 0 rgba(255,255,255,.22);
+    transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+.daily-task-card .daily-start-btn:before{
+    content:"";width:7px;height:7px;flex:none;border-radius:2px;
+    background:#d9f99d;box-shadow:0 0 10px rgba(217,249,157,.7);
+    transform:rotate(45deg);
+}
+.daily-task-card .daily-start-btn:after{
+    content:"";position:absolute;top:-80%;left:-55%;width:28%;height:260%;
+    background:rgba(255,255,255,.23);transform:rotate(24deg);
+    transition:left .45s ease;pointer-events:none;
+}
+.daily-task-card .daily-start-btn:hover:after{left:130%}
+.daily-task-card .daily-start-btn:active{transform:translateY(1px) scale(.94);filter:brightness(1.16)}
+.daily-task-card .daily-start-btn.daily-claimed-btn,
+.daily-task-card .daily-start-btn:disabled{
+    min-width:91px;border-color:rgba(110,231,183,.13);
+    background:linear-gradient(125deg,#263b3b,#334155)!important;
+    color:#a7f3d0!important;box-shadow:none;opacity:1;
+}
+.daily-task-card .daily-start-btn.daily-claimed-btn:before,
+.daily-task-card .daily-start-btn:disabled:before{
+    width:13px;height:13px;border-radius:50%;transform:none;
+    background:#34d399;content:"✓";display:grid;place-items:center;
+    color:#052e24;font:900 9px sans-serif;box-shadow:none;
+}
+.daily-task-card .daily-start-btn.daily-claimed-btn:after,
+.daily-task-card .daily-start-btn:disabled:after{display:none}
+@media(max-width:380px){
+    .official-task-card .mission-action{min-width:65px;height:38px;padding:0 7px}
+    .daily-task-card .daily-start-btn,.daily-task-card .daily-start-btn.daily-claimed-btn{min-width:78px;height:39px;padding:0 7px}
+}
+</style>
+\n</head>
 <body class="pb-36">
 
     <div id="startup-loader" aria-label="   ">
@@ -640,7 +801,15 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 gap-4">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between px-1">
+                    <div>
+                        <h3 class="text-sm font-black text-white">টাস্ক মেনু</h3>
+                        <p class="text-[9px] text-slate-500 mt-1">অফিশিয়াল ও দৈনিক টাস্ক আলাদাভাবে সম্পন্ন করুন</p>
+                    </div>
+                    <span class="text-[8px] font-black tracking-widest text-cyan-300 bg-cyan-400/10 border border-cyan-300/10 rounded-full px-3 py-2">২টি মেনু</span>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
                 <button onclick="changePage('official-task-page', null)" class="glass-item p-5 flex items-center gap-4 text-left w-full">
                     <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-violet-600/30 to-cyan-500/20 border border-violet-400/20"><i data-lucide="badge-check" class="w-7 h-7 text-cyan-300"></i></div>
                     <div class="flex-1"><h3 class="text-base font-black text-white">অফিশিয়াল টাস্ক</h3><p class="text-xs text-slate-400 mt-1">গ্রুপে যোগ দিন ও অফিসিয়াল টাস্ক সম্পন্ন করুন</p></div>
@@ -651,77 +820,69 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                     <div class="flex-1"><h3 class="text-base font-black text-white">ডেইলি টাস্ক</h3><p class="text-xs text-slate-400 mt-1">প্রতিদিনের বিজ্ঞাপন ও টাস্ক সম্পন্ন করে আয় করুন</p></div>
                     <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400"></i>
                 </button>
+                </div>
             </div>
         </div>
 
         <div id="official-task-page" class="page-content hidden space-y-5">
-            <div class="flex items-center gap-3">
-                <button onclick="changePage('home-page', null)" class="glass-item p-3" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-                <div><h2 class="text-xl font-black">অফিশিয়াল টাস্ক</h2><p class="text-xs text-slate-400 mt-1">নিচের টাস্কগুলো সম্পন্ন করুন</p></div>
+            <div class="task-page-topline">
+                <button onclick="changePage('home-page', null)" class="task-back-btn" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left"></i></button>
+                <div><span class="task-eyebrow">UPARJON • VERIFIED</span><h2>অফিশিয়াল টাস্ক</h2></div>
             </div>
-            <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-300 pl-1">অফিশিয়াল টাস্ক</h3>
-                <div class="grid grid-cols-1 gap-3">
-                    <div class="glass-item p-4 flex justify-between items-center border-blue-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="message-circle" class="w-5 h-5 text-blue-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black">অফিশিয়াল গ্রুপ</p>
-                                <p id="status-group" class="text-[8px] text-blue-400 font-bold">Reward:  90.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/uparjonofficial')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
-                    </div>
 
-                    <div class="glass-item p-4 flex justify-between items-center border-green-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black">পেমেন্ট প্রমাণ</p>
-                                <p id="status-pay" class="text-[8px] text-green-400 font-bold">Reward:  90.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-pay" onclick="handleJoinTask('pay', 'https://t.me/uparjonpayment')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
-                    </div>
-
-                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black">স্পনসর লিংক</p>
-                                <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward:  55.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-work" onclick="handleVideoTask('https://t.me/makemoneyonlin92')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
-                    </div>
-                    
-                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black">অফিশিয়াল গ্রুপ ২</p>
-                                <p id="status-work" class="text-[8px] text-red-400 font-bold">Official Group 2 </p>
-                            </div>
-                        </div>
-                        <button id="btn-video" onclick="handleVideoTask('https://t.me/+3gdwR19E6wJkZDY1')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
-                    </div>
+            <section class="official-hero">
+                <div class="official-orbit orbit-a"></div><div class="official-orbit orbit-b"></div>
+                <div class="official-hero-content">
+                    <div class="official-emblem"><i data-lucide="shield-check"></i><span></span></div>
+                    <div class="official-label">OFFICIAL MISSIONS</div>
+                    <h3>বিশ্বস্ত কাজ, সহজ উপার্জন</h3>
+                    <p>অফিশিয়াল কমিউনিটিতে যুক্ত হন এবং নিচের কাজগুলো সম্পন্ন করুন</p>
+                    <div class="official-hero-foot"><span><i data-lucide="badge-check"></i> যাচাইকৃত টাস্ক</span><span>৪টি মিশন</span></div>
                 </div>
-            </div>
+            </section>
 
+            <div class="task-section-heading"><div><span>YOUR MISSIONS</span><h3>অফিশিয়াল মিশনসমূহ</h3></div><div class="section-count">০৪</div></div>
+
+            <div class="official-mission-list">
+                <article class="official-task-card official-blue">
+                    <div class="mission-symbol"><i data-lucide="users"></i><b>01</b></div>
+                    <div class="mission-info"><span class="mission-tag">COMMUNITY</span><h4>অফিশিয়াল গ্রুপ</h4><p id="status-group">Reward: 90.00</p></div>
+                    <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/uparjonofficial')" class="mission-action">Join <i data-lucide="arrow-up-right"></i></button>
+                </article>
+                <article class="official-task-card official-green">
+                    <div class="mission-symbol"><i data-lucide="receipt-text"></i><b>02</b></div>
+                    <div class="mission-info"><span class="mission-tag">PAYMENT UPDATE</span><h4>পেমেন্ট প্রমাণ</h4><p id="status-pay">Reward: 90.00</p></div>
+                    <button id="btn-pay" onclick="handleJoinTask('pay', 'https://t.me/uparjonpayment')" class="mission-action">Join <i data-lucide="arrow-up-right"></i></button>
+                </article>
+                <article class="official-task-card official-violet">
+                    <div class="mission-symbol"><i data-lucide="play"></i><b>03</b></div>
+                    <div class="mission-info"><span class="mission-tag">SPONSORED</span><h4>স্পনসর লিংক</h4><p id="status-video">Reward: 55.00</p></div>
+                    <button id="btn-work" onclick="handleVideoTask('https://t.me/makemoneyonlin92')" class="mission-action">Open <i data-lucide="arrow-up-right"></i></button>
+                </article>
+                <article class="official-task-card official-orange">
+                    <div class="mission-symbol"><i data-lucide="megaphone"></i><b>04</b></div>
+                    <div class="mission-info"><span class="mission-tag">OFFICIAL CHANNEL</span><h4>অফিশিয়াল গ্রুপ ২</h4><p id="status-work">Official Group 2</p></div>
+                    <button id="btn-video" onclick="handleVideoTask('https://t.me/+3gdwR19E6wJkZDY1')" class="mission-action">Open <i data-lucide="arrow-up-right"></i></button>
+                </article>
+            </div>
+            <div class="official-footnote"><i data-lucide="info"></i><span>প্রতিটি অফিসিয়াল টাস্কের নির্দেশনা অনুসরণ করে কাজ সম্পন্ন করুন।</span></div>
         </div>
 
         <div id="daily-task-page" class="page-content hidden space-y-5">
-            <div class="flex items-center gap-3">
-                <button onclick="changePage('home-page', null)" class="glass-item p-3" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-                <div><h2 class="text-xl font-black">ডেইলি টাস্ক</h2><p class="text-xs text-slate-400 mt-1">প্রতিদিনের বিজ্ঞাপন ও টাস্ক</p></div>
+            <div class="task-page-topline daily-topline">
+                <button onclick="changePage('home-page', null)" class="task-back-btn" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left"></i></button>
+                <div><span class="task-eyebrow">UPARJON • EVERY DAY</span><h2>ডেইলি টাস্ক</h2></div>
             </div>
 
+            <section class="daily-hero">
+                <div class="daily-hero-art"><div class="daily-ring ring-one"></div><div class="daily-ring ring-two"></div><div class="daily-hero-icon"><i data-lucide="calendar-check-2"></i></div><span class="daily-spark spark-one">✦</span><span class="daily-spark spark-two">✧</span></div>
+                <div class="daily-hero-copy"><span>DAILY CHALLENGE</span><h3>প্রতিদিন এগিয়ে যান</h3><p>আজকের টাস্কগুলো সম্পন্ন করে আপনার আয় বাড়ান</p></div>
+                <div class="daily-hero-bottom"><span><i data-lucide="refresh-cw"></i> প্রতিদিন নতুন সুযোগ</span><b>৫টি টাস্ক</b></div>
+            </section>
 
-            <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-300 pl-1">দৈনিক টাস্ক</h3>
-                <div id="main-tasks" class="space-y-3">
-                </div>
-            </div>
+            <div class="daily-list-heading"><div><span>TODAY'S ACTIVITIES</span><h3>আজকের টাস্কসমূহ</h3></div><div class="daily-date-mark"><i data-lucide="sun"></i> TODAY</div></div>
+            <div id="main-tasks" class="daily-task-list"></div>
+            <div class="daily-tip"><i data-lucide="lightbulb"></i><div><b>ছোট্ট টিপস</b><p>প্রতিটি টাস্কের নির্দেশনা সম্পন্ন করে CLAIM বাটনে চাপ দিন।</p></div></div>
         </div>
 
         <div id="wallet-page" class="page-content hidden space-y-6">
@@ -873,8 +1034,10 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
 
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 nav-glass px-5 py-3 flex justify-around items-center z-50">
+    <nav class="fixed bottom-0 left-0 right-0 nav-glass px-2 py-3 flex justify-around items-center z-50">
         <button onclick="changePage('home-page', this)" class="nav-btn active-icon flex flex-col items-center gap-1"><i data-lucide="house" class="w-5 h-5"></i><span>হোম</span></button>
+        <button onclick="changePage('official-task-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="badge-check" class="w-5 h-5"></i><span>অফিশিয়াল</span></button>
+        <button onclick="changePage('daily-task-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="calendar-check" class="w-5 h-5"></i><span>ডেইলি</span></button>
         <button onclick="changePage('refer-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="user-plus" class="w-5 h-5"></i><span>রেফার</span></button>
         <button onclick="changePage('wallet-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="wallet" class="w-5 h-5"></i><span>উত্তোলন</span></button>
         <button onclick="changePage('profile-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="user-round" class="w-5 h-5"></i><span>প্রোফাইল</span></button>
@@ -1022,19 +1185,16 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
                 const isDone = completedTasks.includes(i);
                 
                 html += `
-                <div class="glass-item p-4 flex justify-between items-center ${isDone ? 'opacity-50' : ''}">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
-                            <i data-lucide="link" class="w-5 h-5 text-indigo-400"></i>
-                        </div>
-                        <div>
-                            <p class="text-[10px] font-black text-white uppercase">Task - ${i}</p>
-                            <p class="text-[9px] text-indigo-400 font-bold">+৳৫৫.০০</p>
-                        </div>
+                <div class="daily-task-card ${isDone ? 'task-is-done' : ''}">
+                    <div class="daily-task-number"><span>DAY TASK</span><b>0${i}</b></div>
+                    <div class="daily-task-icon"><i data-lucide="zap"></i></div>
+                    <div class="daily-task-details">
+                        <p class="daily-task-title">দৈনিক টাস্ক ${i}</p>
+                        <p class="daily-task-reward"><i data-lucide="coins"></i> +৳৫৫.০০</p>
                     </div>
                     <button id="task-btn-${i}" 
                         onclick="${isDone ? '' : `handleTask(${i}, '${link}')`}" 
-                        class="px-5 py-2.5 ${isDone ? 'bg-gray-600' : 'btn-premium'} rounded-xl text-[9px] font-black uppercase text-white italic"
+                        class="daily-start-btn ${isDone ? 'daily-claimed-btn' : 'daily-ready-btn'}"
                         ${isDone ? 'disabled' : ''}>
                         ${isDone ? 'সম্পন্ন' : 'শুরু করুন'}
                     </button>
@@ -1361,7 +1521,7 @@ html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Be
             }
             lucide.createIcons();
             tg.HapticFeedback.impactOccurred('medium');
-            if(id === 'home-page' || id === 'daily-task-page') renderTasks();
+            if(id === 'daily-task-page') renderTasks();
             if(id === 'refer-page'){
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 setTimeout(() => {
